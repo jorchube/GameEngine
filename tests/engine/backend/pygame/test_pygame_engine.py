@@ -5,7 +5,7 @@ from tests.helper import patcher
 
 from src.game_engine.event.event_type import key_event
 from src.game_engine.display_configuration import DisplayConfiguration
-from src.game_engine.backend.pygameOpenGL.pygame_engine import PygameEngine
+from src.game_engine.backend.pygameOpenGL.engine import Engine
 
 from pygame.locals import *
 import pygame as pg
@@ -20,50 +20,46 @@ class TestPygameBackendEngine(unittest.TestCase):
         self.time.Clock.return_value = self.pygame_clock
         patcher.start_patch(self, 'pygame.display.set_mode')
         patcher.start_patch(self, 'pygame.display.flip')
-        patcher.start_patch(self, 'src.game_engine.backend.pygameOpenGL.pygame_polygon_actor.PygamePolygonActor')
         patcher.start_patch(self, 'src.game_engine.backend.OpenGLWrapper.opengl.clear_screen')
         patcher.start_patch(self, 'src.game_engine.backend.OpenGLWrapper.opengl.gl_translate_f')
         patcher.start_patch(self, 'src.game_engine.backend.OpenGLWrapper.opengl.glu_perspective')
         self.test_scene = mock.MagicMock()
-        self.pygame_actor = mock.MagicMock()
-        self.PygamePolygonActor.return_value = self.pygame_actor
-        self.test_scene.actors.return_value = [self.pygame_actor]
+        self.actor = mock.MagicMock()
+        self.test_scene.actors.return_value = [self.actor]
 
     def tearDown(self):
         patcher.stop_patches()
 
-    def test_should_create_engine(self):
-        PygameEngine(60, DisplayConfiguration(800, 600), self.test_scene)
+    def test_creating_engine(self):
+        Engine(60, DisplayConfiguration(800, 600), self.test_scene)
 
         self.time.Clock.assert_called_once()
         self.init.assert_called_once()
         self.set_mode.assert_called_once_with((800, 600), DOUBLEBUF|OPENGL)
 
-    def test_should_redraw_display_and_sync_to_framerate_on_tick_end(self):
-        engine = PygameEngine(60, DisplayConfiguration(800, 600), self.test_scene)
+    def test_redrawing_display_and_sync_to_framerate_on_tick_end(self):
+        engine = Engine(60, DisplayConfiguration(800, 600), self.test_scene)
 
         engine._end_tick()
 
         self.pygame_clock.tick.assert_called_with(60)
         self.flip.assert_called_once()
 
-    def test_should_create_pygame_actors_and_draw_them_on_draw_actors_call(self):
-        actor = mock.MagicMock()
-        engine = PygameEngine(60, DisplayConfiguration(800, 600), self.test_scene)
+    def test_calling_draw_method_on_each_actor(self):
+        engine = Engine(60, DisplayConfiguration(800, 600), self.test_scene)
 
-        engine._draw_actors([actor])
+        engine._draw_actors([self.actor])
 
-        self.PygamePolygonActor.assert_called_once_with(actor)
-        self.pygame_actor.draw.assert_called_once()
+        self.actor.draw.assert_called_once()
 
-    def test_should_forward_processed_key_event_to_actors(self):
+    def test_forwarding_processed_key_event_to_actors(self):
         an_event = PygameKeyEventTest()
         self.get.return_value = [an_event]
-        engine = PygameEngine(60, DisplayConfiguration(800, 600), self.test_scene)
+        engine = Engine(60, DisplayConfiguration(800, 600), self.test_scene)
 
         engine._process_events()
 
-        self.pygame_actor.receive_event.assert_called_once_with(key_event.KeyEventPress(key_event.Key.RIGHT_ARROW))
+        self.actor.receive_event.assert_called_once_with(key_event.KeyEventPress(key_event.Key.RIGHT_ARROW))
 
 
 class PygameKeyEventTest(object):

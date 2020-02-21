@@ -3,8 +3,8 @@ from src.game_engine.event.event_type import key_event
 
 
 class PlayerActor(PolygonActor):
-    def __init__(self, point_list):
-        super().__init__(point_list)
+    def __init__(self, point_list, draw_delegate):
+        super().__init__(point_list, draw_delegate)
         self.subscribe_to_event(key_event.KeyEventPress, self.__on_key_press_event)
 
     def __on_key_press_event(self, event):

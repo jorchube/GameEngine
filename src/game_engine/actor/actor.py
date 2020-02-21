@@ -3,12 +3,13 @@ from src.game_engine.geometry.point import Point3D
 
 
 class Actor(object):
-    def __init__(self):
+    def __init__(self, draw_delegate=None):
         self.__position = Point3D(0, 0, 0)
         self.__event_handler = event_handler.EventHandler()
+        self.__draw_delegate = draw_delegate
 
     def draw(self):
-        raise NotImplementedError
+        self.__draw_delegate.draw(self)
 
     def subscribe_to_event(self, event_type, callback):
         self.__event_handler.subscribe(event_type, callback)

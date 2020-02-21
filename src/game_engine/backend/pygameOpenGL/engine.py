@@ -1,17 +1,15 @@
 from src.game_engine import engine
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.backend.OpenGLWrapper import opengl
-from src.game_engine.backend.pygameOpenGL import pygame_polygon_actor
 from src.game_engine.backend.pygameOpenGL.pygame_to_event_converter import PygameToEventConverter
 
 import pygame as pg
 from pygame.locals import *
 
 
-
-class PygameEngine(engine.Engine):
+class Engine(engine.Engine):
     def __init__(self, framerate, display_configuration, initial_scene):
-        super(PygameEngine, self).__init__(framerate, display_configuration, initial_scene)
+        super(Engine, self).__init__(framerate, display_configuration, initial_scene)
         self.clock = pg.time.Clock()
         self.fps = framerate
         self.display = (display_configuration.width, display_configuration.height)
@@ -22,7 +20,7 @@ class PygameEngine(engine.Engine):
 
     def _draw_actors(self, actors):
         for actor in actors:
-            pygame_polygon_actor.PygamePolygonActor(actor).draw()
+            actor.draw()
 
     def _end_tick(self):
         self.clock.tick(self.fps)

@@ -2,6 +2,7 @@ import unittest
 from unittest import mock
 
 from src.game_engine.actor.actor import Actor
+from src.game_engine.actor.draw_actor_delegate import DrawActorDelegate
 from src.game_engine.event.event import Event
 from src.game_engine.geometry.point import Point3D
 
@@ -44,6 +45,14 @@ class TestActor(unittest.TestCase):
 
         event_handler_mock.assert_not_called()
 
+    def test_calling_draw_delegate_when_drawing_actor(self):
+        draw_delegate = DummyDrawActorDelegate()
+        an_actor = Actor(draw_delegate)
+
+        an_actor.draw()
+
+        assert draw_delegate.draw_called_with_actor == an_actor
+
 
 class TestEvent(Event):
     pass
@@ -61,5 +70,10 @@ class DummyActor(Actor):
     def event_handler(self, event):
         event_handler_mock(event)
 
-    def draw(self):
-        pass
+
+class DummyDrawActorDelegate(DrawActorDelegate):
+    def __init__(self):
+        self.draw_called_with_actor = None
+
+    def draw(self, actor):
+        self.draw_called_with_actor = actor

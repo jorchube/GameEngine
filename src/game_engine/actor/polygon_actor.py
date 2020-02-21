@@ -2,11 +2,11 @@ from src.game_engine.actor import actor
 
 
 class PolygonActor(actor.Actor):
-    def __init__(self, point_list=[]):
+    def __init__(self, point_list=[], draw_delegate=None):
         if len(point_list) < 3:
             raise PolygonActorConstructionError('Insufficient points to draw a polygon')
         self.__points = point_list
-        super().__init__()
+        super().__init__(draw_delegate)
 
     @property
     def points(self):

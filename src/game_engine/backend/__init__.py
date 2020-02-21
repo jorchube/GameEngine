@@ -1,6 +1,6 @@
-from src.game_engine.backend.pygameOpenGL import engine
+from src.game_engine.backend.pygameOpenGL import engine_delegate
 from src.game_engine.backend.pygameOpenGL import polygon_actor_draw_delegate
 
-default_engine = engine.Engine
+engine_delegate = engine_delegate.PygameEngineDelegate
 
 polygon_actor_draw_delegate = polygon_actor_draw_delegate.PolygonActorDrawDelegate

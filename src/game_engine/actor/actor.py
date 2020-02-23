@@ -5,6 +5,7 @@ from src.game_engine.geometry.point import Point3D
 class Actor(object):
     def __init__(self, draw_delegate=None):
         self.__position = Point3D(0, 0, 0)
+        self.__hitbox = None
         self.__event_handler = event_handler.EventHandler()
         self.__draw_delegate = draw_delegate
 
@@ -16,6 +17,10 @@ class Actor(object):
 
     def receive_event(self, event):
         self.__event_handler.event(event)
+
+    @property
+    def hitbox(self):
+        return self.__hitbox
 
     @property
     def position(self):

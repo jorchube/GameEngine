@@ -16,19 +16,19 @@ class TestActorFactory(unittest.TestCase):
         patcher.stop_patches()
 
     def test_creating_a_polygon_actor(self):
-        point_list = ['point1', 'point2', 'point3']
+        polygon = 'whatever'
 
-        actor = ActorFactory.new_polygon_actor(point_list)
+        actor = ActorFactory.new_polygon_actor(polygon)
 
         assert actor.__class__ == PolygonActor
-        assert actor.points == point_list
+        assert actor.polygon == polygon
         backend.polygon_actor_draw_delegate.assert_called_once()
 
     def test_creating_a_player_actor(self):
-        point_list = ['point1', 'point2', 'point3']
+        polygon = 'whatever'
 
-        actor = ActorFactory.new_player_actor(point_list)
+        actor = ActorFactory.new_player_actor(polygon)
 
         assert actor.__class__ == PlayerActor
-        assert actor.points == point_list
+        assert actor.polygon == polygon
         backend.polygon_actor_draw_delegate.assert_called_once()

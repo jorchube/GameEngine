@@ -34,8 +34,8 @@ def glu_perspective(fov, aspect_ratio, near_clipping_plane_distance, far_clippin
     gluPerspective(fov, aspect_ratio, near_clipping_plane_distance, far_clipping_plane_distance)
 
 
-def draw_polygon(point_list):
+def draw_polygon(polygon):
     begin_polygon()
-    for point in point_list:
+    for point in polygon.point_list:
         vertex_3fv(point.as_tuple())
     end()

@@ -25,8 +25,8 @@ class KeyEvent(event.Event):
 
 
 class KeyEventPress(KeyEvent):
-    type = event.Event.KEY_PRESS
+    type = event.EventType.KEY_PRESS
 
 
 class KeyEventRelease(KeyEvent):
-    type = event.Event.KEY_RELEASE
+    type = event.EventType.KEY_RELEASE

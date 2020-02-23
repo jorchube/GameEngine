@@ -4,6 +4,7 @@ from src.game_engine.engine.engine import Engine
 from src.game_engine.actor.actor_factory import ActorFactory
 from src.game_engine.display_configuration import DisplayConfiguration
 from src.game_engine.geometry.point import Point3D
+from src.game_engine.geometry.polygon import Polygon
 
 
 def start_engine_poc():
@@ -13,7 +14,8 @@ def start_engine_poc():
 
     display_config = DisplayConfiguration(width_px=display_width, height_px=display_height)
     initial_scene = scene.Scene()
-    initial_scene.add_actor(ActorFactory.new_player_actor([Point3D(0,0,0), Point3D(0,1,0), Point3D(1,0.5,0)]))
+    initial_scene.add_actor(ActorFactory.new_player_actor(Polygon([Point3D(0,0,0), Point3D(0,1,0), Point3D(1,0.5,0)])))
+    initial_scene.add_actor(ActorFactory.new_polygon_actor(Polygon([Point3D(5, 0, 0), Point3D(0, 5, 0), Point3D(5, 5, 0)])))
 
     engine = Engine(fps, display_config, initial_scene, backend.engine_delegate())
 

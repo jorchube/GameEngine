@@ -2,7 +2,7 @@ class EngineDelegate(object):
     def initialize(self, engine):
         raise NotImplementedError
 
-    def digest_events(self, engine):
+    def digest_events(self):
         raise NotImplementedError
 
     def clear_display(self):

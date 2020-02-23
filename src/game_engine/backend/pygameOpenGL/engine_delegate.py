@@ -10,23 +10,23 @@ from src.game_engine.engine.engine_delegate import EngineDelegate
 class PygameEngineDelegate(EngineDelegate):
     def __init__(self):
         self.clock = None
-        self.framerate = None
+        self.engine = None
 
     def initialize(self, engine):
         self.clock = pg.time.Clock()
-        self.framerate = engine.framerate
+        self.engine = engine
         pg.init()
-        pg.display.set_mode((engine.display.width, engine.display.height), DOUBLEBUF|OPENGL)
-        opengl.glu_perspective(45, (engine.display.width/engine.display.height), 0.1, 100.0)  # FIXME: This belongs to a scene/camera module
+        pg.display.set_mode((engine.display_configuration.width, engine.display_configuration.height), DOUBLEBUF | OPENGL)
+        opengl.glu_perspective(45, (engine.display_configuration.width / engine.display_configuration.height), 0.1, 100.0)  # FIXME: This belongs to a scene/camera module
         opengl.gl_translate_f(Point3D(0, 0, -50))  # FIXME: This belongs to a scene/camera module
 
-    def digest_events(self, engine):
+    def digest_events(self):
         events = filter(lambda event: PygameToEventConverter.can_convert_event(event.type), pg.event.get())
-        engine.set_digested_events([PygameToEventConverter.convert(event) for event in events])
+        self.engine.set_digested_events([PygameToEventConverter.convert(event) for event in events])
 
     def clear_display(self):
         opengl.clear_screen()
 
     def end_tick(self):
         pg.display.flip()
-        self.clock.tick(self.framerate)
+        self.clock.tick(self.engine.display_configuration.fps)

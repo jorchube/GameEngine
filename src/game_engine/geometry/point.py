@@ -37,6 +37,13 @@ class Point3D(object):
         z = self.__z + other.z
         return Point3D(x, y, z)
 
+    @classmethod
+    def divide_point_by_number(cls, point, number):
+        x = point.x / number
+        y = point.y / number
+        z = point.z / number
+        return Point3D(x, y, z)
+
     def __repr__(self):
         return '({0},{1},{2})'.format(self.__x, self.__y, self.__z)
 

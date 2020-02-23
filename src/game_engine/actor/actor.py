@@ -1,4 +1,5 @@
 from src.game_engine.event import event_handler
+from src.game_engine.game import Game
 from src.game_engine.geometry.point import Point3D
 
 
@@ -46,4 +47,10 @@ class Actor(object):
             raise TypeError('Actor vector needs to be a {needed} was {was}'.format(needed=Point3D.__name__, was=new_vector.__class__.__name__))
 
     def end_tick(self):
-        self.position = self.position + self.move_vector
+        self.__update_position_with_movement_vector()
+
+    def __update_position_with_movement_vector(self):
+        self.position = self.position + self.__move_vector_per_tick()
+
+    def __move_vector_per_tick(self):
+        return Point3D.divide_point_by_number(self.move_vector, Game.display_configuration().fps)

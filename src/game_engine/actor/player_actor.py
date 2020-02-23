@@ -16,7 +16,7 @@ class PlayerActor(PolygonActor):
     def __on_key_press_event(self, event):
         print("key press: {k}".format(k=event.key))
         if event.key in PlayerActor.__arrow_keys:
-            self.__update_move_vector_with_arrow_key(event.key, 1)  # TODO: rework move/speed/units and decouple from fps
+            self.__update_move_vector_with_arrow_key(event.key, 15)
 
     def __on_key_release_event(self, event):
         print("key release: {k}".format(k=event.key))

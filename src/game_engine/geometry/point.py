@@ -31,6 +31,12 @@ class Point3D(object):
     def as_tuple(self):
         return self.__x, self.__y, self.__z
 
+    def __add__(self, other):
+        x = self.__x + other.x
+        y = self.__y + other.y
+        z = self.__z + other.z
+        return Point3D(x, y, z)
+
     def __repr__(self):
         return '({0},{1},{2})'.format(self.__x, self.__y, self.__z)
 

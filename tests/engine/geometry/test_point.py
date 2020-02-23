@@ -33,3 +33,9 @@ class TestPoint3D(unittest.TestCase):
         point.z = 3
 
         assert (1, 2, 3) == point.as_tuple()
+
+    def test_adding_two_points(self):
+        p1 = Point3D(1, 2, 3)
+        p2 = Point3D(1, 2, 3)
+
+        assert Point3D(2, 4, 6) == p1 + p2

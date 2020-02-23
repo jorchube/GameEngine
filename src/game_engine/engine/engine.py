@@ -38,7 +38,12 @@ class Engine(object):
         self._process_events()
         self.engine_delegate.clear_display()
         self._draw_actors()
+        self._notify_end_tick_to_actors()
         self.engine_delegate.end_tick()
+
+    def _notify_end_tick_to_actors(self):
+        for actor in self._scene.actors():
+            actor.end_tick()
 
     def _draw_actors(self):
         for actor in self._scene.actors():

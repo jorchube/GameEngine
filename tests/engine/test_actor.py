@@ -53,6 +53,17 @@ class TestActor(unittest.TestCase):
 
         assert draw_delegate.draw_called_with_actor == an_actor
 
+    def test_actor_position_changes_on_tick_notification_when_on_move_vector_is_not_zeroes(self):
+        draw_delegate = DummyDrawActorDelegate()
+        an_actor = Actor(draw_delegate)
+        an_actor.position = Point3D(5, 5, 5)
+        an_actor.move_vector = Point3D(1, -1, 2)
+
+        an_actor.end_tick()
+
+        assert an_actor.position == Point3D(6, 4, 7)
+
+
 
 class TestEvent(Event):
     pass

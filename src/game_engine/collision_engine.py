@@ -5,12 +5,7 @@ from src.game_engine.geometry.point import Point3D
 
 
 class CollisionEngine(object):
-    def __init__(self):
-        pass
-
     def calculate_collisions(self, actors):
-        if not actors:
-            return
         actors_copy = actors.copy()
         while actors_copy:
             actor = actors_copy.pop()
@@ -28,7 +23,7 @@ class CollisionEngine(object):
         actor1.receive_event(CollisionEvent(actor2))
 
     def __geometry_from_actor(self, actor):
-        return [self.__normalize_position(point, actor.position).as_tuple() for point in actor.hitbox.point_list]
+        return [self.__normalize_with_position(point, actor.position).as_tuple() for point in actor.hitbox.point_list]
 
-    def __normalize_position(self, point, position):
+    def __normalize_with_position(self, point, position):
         return Point3D(point.x + position.x, point.y + position.y, point.z + position.z)

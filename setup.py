@@ -12,6 +12,7 @@ setup(
     install_requires=[
         'pygame',
         'pyopengl',
-        'pyopengl_accelerate'
+        'pyopengl_accelerate',
+        'shapely'
     ]
 )

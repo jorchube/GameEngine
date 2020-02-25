@@ -12,4 +12,4 @@ class TestPlayerActor(unittest.TestCase):
 
         actor.receive_event(event)
 
-        assert Point3D(1, 0, 0) == actor.move_vector
+        assert Point3D(15, 0, 0) == actor.move_vector

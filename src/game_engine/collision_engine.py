@@ -6,13 +6,17 @@ from src.game_engine.geometry.point import Point3D
 
 class CollisionEngine(object):
     def calculate_collisions(self, actors):
-        actors_copy = actors.copy()
-        while actors_copy:
-            actor = actors_copy.pop()
-            for other in actors_copy:
-                if self.__actors_collide(actor, other):
-                    self.__notify_collision(actor, other)
-                    self.__notify_collision(other, actor)
+        collider_actors = list(filter(lambda a: a.check_collisions, actors))
+        while collider_actors:
+            actor = collider_actors.pop()
+            for other in actors:
+                if actor is not other:
+                    self.__notify_actors_if_collide(actor, other)
+
+    def __notify_actors_if_collide(self, actor1, actor2):
+        if self.__actors_collide(actor1, actor2):
+            self.__notify_collision(actor1, actor2)
+            self.__notify_collision(actor2, actor1)
 
     def __actors_collide(self, actor1, actor2):
         geometry1 = self.__geometry_from_actor(actor1)

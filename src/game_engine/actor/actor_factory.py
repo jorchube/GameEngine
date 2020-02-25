@@ -10,4 +10,7 @@ class ActorFactory(object):
 
     @classmethod
     def new_player_actor(cls, point_list):
-        return PlayerActor(point_list, backend.polygon_actor_draw_delegate())
+        actor = PlayerActor(point_list, backend.polygon_actor_draw_delegate())
+        actor.check_collisions = True
+        return actor
+

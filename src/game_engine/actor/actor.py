@@ -10,6 +10,7 @@ class Actor(object):
         self.__hitbox = None
         self.__event_handler = event_handler.EventHandler()
         self.__draw_delegate = draw_delegate
+        self.__check_collisions = False
 
     def draw(self):
         self.__draw_delegate.draw(self)
@@ -19,6 +20,14 @@ class Actor(object):
 
     def receive_event(self, event):
         self.__event_handler.event(event)
+
+    @property
+    def check_collisions(self):
+        return self.__check_collisions
+
+    @check_collisions.setter
+    def check_collisions(self, check):
+        self.__check_collisions = check
 
     @property
     def hitbox(self):

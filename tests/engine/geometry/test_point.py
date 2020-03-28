@@ -40,7 +40,8 @@ class TestPoint3D(unittest.TestCase):
 
         assert Point3D(2, 4, 6) == p1 + p2
 
-    def test_dividing_by_number(self):
-        p1 = Point3D(1, 2, 3)
+    def test_substracting_two_points(self):
+        p1 = Point3D(3, 6, 9)
+        p2 = Point3D(1, 2, 3)
 
-        assert Point3D(0.5, 1, 1.5) == Point3D.divide_point_by_number(p1, 2)
+        assert Point3D(2, 4, 6) == p1 - p2

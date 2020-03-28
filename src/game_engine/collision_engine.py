@@ -1,9 +1,6 @@
 from src.game_engine.event.event_type.collision_event import CollisionEvent
 from shapely.geometry import Polygon as sPol
 
-from src.game_engine.geometry.point import Point3D
-
-
 class CollisionEngine(object):
     def calculate_collisions(self, actors):
         collider_actors = list(filter(lambda a: a.check_collisions, actors))
@@ -30,4 +27,4 @@ class CollisionEngine(object):
         return [self.__normalize_with_position(point, actor.position).as_tuple() for point in actor.hitbox.point_list]
 
     def __normalize_with_position(self, point, position):
-        return Point3D(point.x + position.x, point.y + position.y, point.z + position.z)
+        return point+position

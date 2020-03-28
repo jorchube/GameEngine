@@ -1,12 +1,13 @@
 from src.game_engine.event import event_handler
 from src.game_engine.game import Game
 from src.game_engine.geometry.point import Point3D
+from src.game_engine.geometry.vector import Vector3D
 
 
 class Actor(object):
     def __init__(self, draw_delegate=None):
         self.__position = Point3D(0, 0, 0)
-        self.__move_vector = Point3D(0, 0, 0)
+        self.__move_vector = Vector3D(0, 0, 0)
         self.__hitbox = None
         self.__event_handler = event_handler.EventHandler()
         self.__draw_delegate = draw_delegate
@@ -50,10 +51,10 @@ class Actor(object):
 
     @move_vector.setter
     def move_vector(self, new_vector):
-        if new_vector.__class__ == Point3D:
+        if new_vector.__class__ == Vector3D:
             self.__move_vector = new_vector
         else:
-            raise TypeError('Actor vector needs to be a {needed} was {was}'.format(needed=Point3D.__name__, was=new_vector.__class__.__name__))
+            raise TypeError('Actor vector needs to be a {needed} was {was}'.format(needed=Vector3D.__name__, was=new_vector.__class__.__name__))
 
     def end_tick(self):
         self.__update_position_with_movement_vector()
@@ -62,4 +63,4 @@ class Actor(object):
         self.position = self.position + self.__move_vector_per_tick()
 
     def __move_vector_per_tick(self):
-        return Point3D.divide_point_by_number(self.move_vector, Game.display_configuration().fps)
+        return Vector3D.divide_vector_by_number(self.move_vector, Game.display_configuration().fps)

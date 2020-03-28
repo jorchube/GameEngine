@@ -7,7 +7,7 @@ from src.game_engine.display_configuration import DisplayConfiguration
 from src.game_engine.event.event import Event
 from src.game_engine.game import Game
 from src.game_engine.geometry.point import Point3D
-
+from src.game_engine.geometry.vector import Vector3D
 
 event_handler_mock = mock.MagicMock()
 
@@ -60,7 +60,7 @@ class TestActor(unittest.TestCase):
         draw_delegate = DummyDrawActorDelegate()
         an_actor = Actor(draw_delegate)
         an_actor.position = Point3D(5, 5, 5)
-        an_actor.move_vector = Point3D(15, -15, 30)
+        an_actor.move_vector = Vector3D(15, -15, 30)
 
         an_actor.end_tick()
 

@@ -2,6 +2,10 @@ from OpenGL.GL import *
 from OpenGL.GLU import *
 
 
+def check_requirements():
+    return bool(gluPerspective)
+
+
 def clear_screen():
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT)
 

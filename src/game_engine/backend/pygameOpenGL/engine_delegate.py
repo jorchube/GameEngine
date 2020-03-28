@@ -9,6 +9,7 @@ from src.game_engine.engine.engine_delegate import EngineDelegate
 
 class PygameEngineDelegate(EngineDelegate):
     def __init__(self):
+        self.__check_requirements()
         self.clock = None
         self.engine = None
 
@@ -30,3 +31,11 @@ class PygameEngineDelegate(EngineDelegate):
     def end_tick(self):
         pg.display.flip()
         self.clock.tick(self.engine.display_configuration.fps)
+
+    def __check_requirements(self):
+        if not opengl.check_requirements():
+            print('')
+            print('FATAL:')
+            print('It seems that GLU libraries are not available on this system.')
+            print('You can fix this by installing any GLU implementation.')
+            exit(-1)

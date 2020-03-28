@@ -21,12 +21,12 @@ class KeyEvent(event.Event):
         return self._key
 
     def __eq__(self, other):
-        return self.type == other.type and self.key == other.key
+        return self.__class__ == other.__class__ and self.key == other.key
 
 
 class KeyEventPress(KeyEvent):
-    type = event.EventType.KEY_PRESS
+    pass
 
 
 class KeyEventRelease(KeyEvent):
-    type = event.EventType.KEY_RELEASE
+    pass

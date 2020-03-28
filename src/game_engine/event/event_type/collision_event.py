@@ -10,5 +10,5 @@ class CollisionEvent(event.Event):
         return self.__colliding_actor
 
     def __eq__(self, other):
-        return self.type == other.type and self.colliding_actor == other.colliding_actor
+        return self.__class__ == other.__class__ and self.colliding_actor == other.colliding_actor
 

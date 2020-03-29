@@ -1,11 +1,11 @@
-from src.game_engine.actor.polygon_actor import PolygonActor
+from src.game_engine.actor.actor import Actor
 from src.game_engine.event.event_type import key_event
 from src.game_engine.event.event_type import collision_event
 
 
-class PlayerActor(PolygonActor):
-    def __init__(self, point_list, draw_delegate=None):
-        super().__init__(point_list, draw_delegate)
+class PlayerActor(Actor):
+    def __init__(self):
+        super().__init__()
         self.subscribe_to_event(key_event.KeyEventPress, self.__on_key_press_event)
         self.subscribe_to_event(key_event.KeyEventRelease, self.__on_key_release_event)
         self.subscribe_to_event(collision_event.CollisionEvent, self.__on_collision_event)

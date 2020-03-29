@@ -1,6 +1,9 @@
 import unittest
 from unittest import mock
 
+from src.game_engine.component.component import Component
+from tests.helper import patcher
+
 from src.game_engine.actor.actor import Actor
 from src.game_engine.actor.draw_actor_delegate import DrawActorDelegate
 from src.game_engine.display_configuration import DisplayConfiguration
@@ -14,7 +17,14 @@ event_handler_mock = mock.MagicMock()
 
 class TestActor(unittest.TestCase):
     def setUp(self):
+        patcher.start_patch(self, 'src.game_engine.game.Game')
+        self.display_configuration = mock.MagicMock()
+        self.display_configuration.fps = 30
+        self.Game.display_configuration.return_value = self.display_configuration
         self.test_actor = DummyActor()
+
+    def tearDown(self):
+        patcher.stop_patches()
 
     def test_creating_actor_at_default_position(self):
         an_actor = Actor()
@@ -47,24 +57,52 @@ class TestActor(unittest.TestCase):
 
         event_handler_mock.assert_not_called()
 
-    def test_calling_draw_delegate_when_drawing_actor(self):
-        draw_delegate = DummyDrawActorDelegate()
-        an_actor = Actor(draw_delegate)
-
-        an_actor.draw()
-
-        assert draw_delegate.draw_called_with_actor == an_actor
-
-    def test_actor_position_changes_on_tick_notification_when_on_move_vector_is_not_zeroes_normalized_with_the_fps(self):
+    def test_actor_position_changes_on_tick_notification_when_on_move_vector_is_not_zero_normalized_with_the_fps(self):
         Game.set_display_configuration(DisplayConfiguration(800, 600, 30))
-        draw_delegate = DummyDrawActorDelegate()
-        an_actor = Actor(draw_delegate)
+        an_actor = Actor()
         an_actor.position = Point3D(5, 5, 5)
         an_actor.move_vector = Vector3D(15, -15, 30)
 
         an_actor.end_tick()
 
         assert an_actor.position == Point3D(5.5, 4.5, 6)
+
+    def test_setting_actor_to_added_component(self):
+        component1 = mock.MagicMock()
+
+        self.test_actor.add_component(component1)
+
+        assert component1.actor == self.test_actor
+
+    def test_getting_all_components(self):
+        component1 = mock.MagicMock()
+        component2 = mock.MagicMock()
+
+        self.test_actor.add_component(component1)
+        self.test_actor.add_component(component2)
+
+        assert [component1, component2] == self.test_actor.components()
+
+    def test_getting_components_by_class(self):
+        component1 = ComponentClass1()
+        component2 = ComponentClass2()
+
+        self.test_actor.add_component(component1)
+        self.test_actor.add_component(component2)
+
+        assert [component1] == self.test_actor.components(by_class=ComponentClass1)
+        assert [component2] == self.test_actor.components(by_class=ComponentClass2)
+
+    def test_notifying_all_components_on_tick_end(self):
+        component1 = mock.MagicMock()
+        component2 = mock.MagicMock()
+        self.test_actor.add_component(component1)
+        self.test_actor.add_component(component2)
+
+        self.test_actor.end_tick()
+
+        component1.end_tick.assert_called_once()
+        component2.end_tick.assert_called_once()
 
 
 class TestEvent(Event):
@@ -84,9 +122,10 @@ class DummyActor(Actor):
         event_handler_mock(event)
 
 
-class DummyDrawActorDelegate(DrawActorDelegate):
-    def __init__(self):
-        self.draw_called_with_actor = None
+class ComponentClass1(Component):
+    def end_tick(self):
+        pass
 
-    def draw(self, actor):
-        self.draw_called_with_actor = actor
+class ComponentClass2(Component):
+    def end_tick(self):
+        pass

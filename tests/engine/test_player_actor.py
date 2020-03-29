@@ -8,7 +8,7 @@ from src.game_engine.geometry.point import Point3D
 class TestPlayerActor(unittest.TestCase):
     def test_should_update_move_vector_when_receiving_arrow_key_press_event(self):
         event = key_event.KeyEventPress(key_event.Key.RIGHT_ARROW)
-        actor = PlayerActor([Point3D(1, 0, 0), Point3D(0, 1, 0), Point3D(1, 1, 0)])
+        actor = PlayerActor()
 
         actor.receive_event(event)
 

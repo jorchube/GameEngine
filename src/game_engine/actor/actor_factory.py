@@ -1,16 +1,20 @@
-from src.game_engine import backend
 from src.game_engine.actor.player_actor import PlayerActor
-from src.game_engine.actor.polygon_actor import PolygonActor
+from src.game_engine.actor.actor import Actor
+from src.game_engine.component.hitbox_component import HitboxComponent
+from src.game_engine.component.polygon_component import PolygonComponent
 
 
 class ActorFactory(object):
     @classmethod
-    def new_polygon_actor(cls, point_list):
-        return PolygonActor(point_list, backend.polygon_actor_draw_delegate())
-
-    @classmethod
-    def new_player_actor(cls, point_list):
-        actor = PlayerActor(point_list, backend.polygon_actor_draw_delegate())
-        actor.check_collisions = True
+    def new_player_actor(cls, polygon):
+        actor = PlayerActor()
+        actor.add_component(PolygonComponent(polygon))
+        actor.add_component(HitboxComponent(polygon, is_collision_source=True))
         return actor
 
+    @classmethod
+    def new_polygon_actor(cls, polygon):
+        actor = Actor()
+        actor.add_component(PolygonComponent(polygon))
+        actor.add_component(HitboxComponent(polygon, is_collision_source=False))
+        return actor

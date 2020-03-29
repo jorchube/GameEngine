@@ -17,7 +17,7 @@ class PygameEngineDelegate(EngineDelegate):
         self.clock = pg.time.Clock()
         self.engine = engine
         pg.init()
-        pg.display.set_mode((engine.display_configuration.width, engine.display_configuration.height), DOUBLEBUF | OPENGL)
+        pg.display.set_mode((engine.display_configuration.width, engine.display_configuration.height), DOUBLEBUF | OPENGL | SCALED)
         opengl.glu_perspective(45, (engine.display_configuration.width / engine.display_configuration.height), 0.1, 100.0)  # FIXME: This belongs to a scene/camera module
         opengl.gl_translate_f(Point3D(0, 0, -50))  # FIXME: This belongs to a scene/camera module
 

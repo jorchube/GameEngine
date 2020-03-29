@@ -2,6 +2,7 @@ class Component(object):
     def __init__(self):
         self.__actor = None
         self.__tag = None
+        self.__components = []
 
     @property
     def actor(self):
@@ -18,6 +19,18 @@ class Component(object):
     @tag.setter
     def tag(self, tag):
         self.__tag = tag
+
+    def add_component(self, component):
+        component.actor = self
+        self.__components.append(component)
+
+    def components(self, by_class=None):
+        if by_class is None:
+            return self.__components
+        return self.__components_by_class(by_class)
+
+    def __components_by_class(self, by_class):
+        return list(filter(lambda component: component.__class__ == by_class, self.__components))
 
     @property
     def position(self):

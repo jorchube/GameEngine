@@ -1,7 +1,9 @@
 from src.game_engine import backend
 from src.game_engine import scene
 from src.game_engine.actor.actor import Actor
+from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
+from src.game_engine.component.outline_component import OutlineComponent
 from src.game_engine.component.polygon_component import PolygonComponent
 from src.game_engine.engine.engine import Engine
 from src.game_engine.actor.actor_factory import ActorFactory
@@ -9,6 +11,7 @@ from src.game_engine.display_configuration import DisplayConfiguration
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.vector import Vector3D
+from src.game_engine.visual.rgb import RGB
 
 
 def start_engine_poc():
@@ -34,7 +37,9 @@ def __add_some_actors(_scene):
 
     _scene.add_actor(RotatingTriangle())
     _scene.add_actor(RotatingSquare())
-    _scene.add_actor(RotatingCompoundActor())
+    _scene.add_actor(ColoredSquare())
+    _scene.add_actor(ColoredAndOutlinedSquare())
+    _scene.add_actor(VeryCompoundActor())
 
 
 class RotatingTriangle(Actor):
@@ -66,20 +71,48 @@ class RotatingSquare(Actor):
         super().end_tick()
 
 
-class RotatingCompoundActor(Actor):
+class ColoredSquare(Actor):
+    def __init__(self):
+        super().__init__()
+        body = Polygon([Point3D(-1, -1, 0), Point3D(1, -1, 0), Point3D(1, 1, 0), Point3D(-1, 1, 0)])
+        self.add_component(ColorComponent(RGB(1, 0, 0.5)))
+        self.add_component(HitboxComponent(body))
+        self.add_component(PolygonComponent(body))
+        self.position = Point3D(0, 10, 0)
+
+
+class ColoredAndOutlinedSquare(Actor):
+    def __init__(self):
+        super().__init__()
+        body = Polygon([Point3D(-1, -1, 0), Point3D(1, -1, 0), Point3D(1, 1, 0), Point3D(-1, 1, 0)])
+        self.add_component(ColorComponent(RGB(0, 0.7, 0)))
+        self.add_component(OutlineComponent(RGB(1, 0, 0), thickness=4))
+        self.add_component(HitboxComponent(body))
+        self.add_component(PolygonComponent(body))
+        self.position = Point3D(-3, 8, 0)
+
+
+class VeryCompoundActor(Actor):
     def __init__(self):
         super().__init__()
         body1 = Polygon([Point3D(0, -0.25, 0), Point3D(3, -0.25, 0), Point3D(3, 0.25, 0), Point3D(0, 0.25, 0)])
         body2 = Polygon([Point3D(3.5, -1, 0), Point3D(3.5, 1, 0), Point3D(5, 0, 0)])
+        polygon1 = PolygonComponent(body1)
+        polygon1.add_component(ColorComponent(RGB(1, 0, 0)))
+        polygon1.add_component(OutlineComponent(RGB(0, 0, 1), thickness=4))
+        polygon2 = PolygonComponent(body2)
+        polygon2.add_component(ColorComponent(RGB(0, 1, 0)))
+        polygon2.add_component(OutlineComponent(RGB(0.5, 0, 0.5), thickness=8))
         self.add_component(HitboxComponent(body1))
-        self.add_component(PolygonComponent(body1))
+        self.add_component(polygon1)
         self.add_component(HitboxComponent(body2))
-        self.add_component(PolygonComponent(body2))
+        self.add_component(polygon2)
         self.position = Point3D(5, -15, 0)
 
     def end_tick(self):
         self.rotation.z_axis -= 1
         super().end_tick()
+
 
 
 def main():

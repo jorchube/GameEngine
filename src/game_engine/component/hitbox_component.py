@@ -1,11 +1,13 @@
 from src.game_engine.component.component import Component
+from src.game_engine.geometry.operations import GeometryOperations
 
 
 class HitboxComponent(Component):
     def __init__(self, hitbox, is_collision_source=False):
         super().__init__()
-        self.__hitbox = hitbox
         self.__is_collision_source = is_collision_source
+        self.__hitbox = hitbox
+        self.__original_hitbox = hitbox
 
     @property
     def hitbox(self):
@@ -21,5 +23,6 @@ class HitboxComponent(Component):
 
     def end_tick(self):
         pass
-        # TODO: rotate
 
+    def update_rotation(self):
+        self.__hitbox = GeometryOperations.rotate_polygon(self.__original_hitbox, self.actor.position, self.actor.rotation.z_axis)

@@ -34,6 +34,12 @@ def gl_translate_f(point):
     glTranslatef(point.x, point.y, point.z)
 
 
+def gl_rotate_f(x_axis, y_axis, z_axis):
+    glRotatef(x_axis, 1, 0, 0)
+    glRotatef(y_axis, 0, 1, 0)
+    glRotatef(z_axis, 0, 0, 1)
+
+
 def glu_perspective(fov, aspect_ratio, near_clipping_plane_distance, far_clipping_plane_distance):
     gluPerspective(fov, aspect_ratio, near_clipping_plane_distance, far_clipping_plane_distance)
 

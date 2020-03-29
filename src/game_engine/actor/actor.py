@@ -2,13 +2,14 @@ from src.game_engine.event import event_handler
 from src.game_engine import game
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.geometry.vector import Vector3D
-from src.game_engine.geometry.operations import GeometryOperations
+from src.game_engine.geometry.rotation import Rotation
 
 
 class Actor(object):
     def __init__(self):
         self.__position = Point3D(0, 0, 0)
         self.__move_vector = Vector3D(0, 0, 0)
+        self.__rotation = Rotation(self.__rotation_callback)
         self.__event_handler = event_handler.EventHandler()
         self.__components = []
 
@@ -52,6 +53,10 @@ class Actor(object):
         else:
             raise TypeError('Actor vector needs to be a {needed} was {was}'.format(needed=Vector3D.__name__, was=new_vector.__class__.__name__))
 
+    @property
+    def rotation(self):
+        return self.__rotation
+
     def end_tick(self):
         self.__update_position()
         for component in self.__components:
@@ -63,3 +68,6 @@ class Actor(object):
     def __move_vector_per_tick(self):
         return Vector3D.divide_vector_by_number(self.move_vector, game.Game.display_configuration().fps)
 
+    def __rotation_callback(self):
+        for component in self.__components:
+            component.update_rotation()

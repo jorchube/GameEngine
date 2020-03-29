@@ -4,11 +4,17 @@ from shapely import geometry
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.point import Point3D
 
+
 class GeometryOperations(object):
     @classmethod
     def rotate_polygon(cls, polygon, position, z_axis):
         _geometry = cls.__geometry_from_polygon_and_position(polygon, position)
-        return cls.__to_polygon(affinity.rotate(_geometry, z_axis), position)
+        return cls.__to_polygon(affinity.rotate(_geometry, z_axis, origin=(position.x, position.y)), position)
+
+    @classmethod
+    def polygon_center(cls, polygon):
+        _geometry = cls.__geometry_from_polygon_and_position(polygon, Point3D(0, 0, 0))
+        return Point3D(_geometry.centroid.x, _geometry.centroid.y, 0)
 
     @classmethod
     def are_intersecting_polygons(cls, polygon1, position1, polygon2, position2):

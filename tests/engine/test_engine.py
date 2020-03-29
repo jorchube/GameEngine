@@ -78,8 +78,8 @@ def given_test_scene():
 
 
 class DummyEngine(engine.Engine):
-    def __init__(self, display_configuration, scene, engine_delegate):
-        super().__init__(display_configuration, scene, engine_delegate)
+    def __init__(self, _display_configuration, scene, engine_delegate):
+        super().__init__(_display_configuration, scene, engine_delegate)
         self.ticks = 0
         self.process_events_called = False
 

@@ -125,6 +125,7 @@ class ComponentClass1(Component):
     def end_tick(self):
         pass
 
+
 class ComponentClass2(Component):
     def end_tick(self):
         pass

@@ -23,6 +23,9 @@ class Component(object):
     def position(self):
         return self.actor.position
 
+    def update_rotation(self):
+        raise NotImplementedError
+
     def end_tick(self):
         raise NotImplementedError
 

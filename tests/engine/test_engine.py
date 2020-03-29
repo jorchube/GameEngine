@@ -65,14 +65,6 @@ class TestEngine(unittest.TestCase):
 
         assert self.test_engine.process_events_called
 
-    def test_calling_draw_method_on_each_actor(self):
-        scene, actor_list = given_test_scene()
-        self.test_engine.set_scene(scene)
-
-        self.test_engine._draw_actors()
-
-        actor_list[0].draw.assert_called_once()
-
     def test_calling_engine_delegate_to_clear_display_and_notify_end_tick_on_run_loop(self):
         pass
 

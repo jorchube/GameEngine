@@ -5,7 +5,6 @@ from src.game_engine.component.component import Component
 from tests.helper import patcher
 
 from src.game_engine.actor.actor import Actor
-from src.game_engine.actor.draw_actor_delegate import DrawActorDelegate
 from src.game_engine.display_configuration import DisplayConfiguration
 from src.game_engine.event.event import Event
 from src.game_engine.game import Game

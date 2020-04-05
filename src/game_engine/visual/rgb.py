@@ -15,3 +15,15 @@ class RGB(object):
     @property
     def blue(self):
         return self.__blue
+
+    @red.setter
+    def red(self, value):
+        self.__red = value
+
+    @green.setter
+    def green(self, value):
+        self.__green = value
+
+    @blue.setter
+    def blue(self, value):
+        self.__blue = value

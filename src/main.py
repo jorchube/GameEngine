@@ -4,6 +4,7 @@ from src.game_engine import backend
 from src.game_engine import scene
 from src.game_engine.actor.actor import Actor
 from src.game_engine.actor.particle import Particle
+from src.game_engine.actor.player_actor import PlayerActor
 from src.game_engine.audio.audio import Audio
 from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
@@ -14,6 +15,7 @@ from src.game_engine.engine.engine import Engine
 from src.game_engine.actor.actor_factory import ActorFactory
 from src.game_engine.display_configuration import DisplayConfiguration
 from src.game_engine.event.event_type import collision_event
+from src.game_engine.game import Game
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.vector import Vector3D
@@ -31,17 +33,46 @@ def start_engine_poc():
 
 
 def __add_some_actors(_scene):
-    player_actor = ActorFactory.new_player_actor(Polygon([Point3D(0, 0, 0), Point3D(0, 1, 0), Point3D(1, 0.5, 0)]))
-    _scene.add_actor(player_actor)
-
-    another_actor = ActorFactory.new_polygon_actor(Polygon([Point3D(5, 0, 0), Point3D(0, 5, 0), Point3D(5, 5, 0)]))
-    _scene.add_actor(another_actor)
+    _scene.add_actor(APlayerActor())
+    # another_actor = ActorFactory.new_polygon_actor(Polygon([Point3D(5, 0, 0), Point3D(0, 5, 0), Point3D(5, 5, 0)]))
+    # _scene.add_actor(another_actor)
     _scene.add_actor(RotatingTriangle())
     _scene.add_actor(RotatingSquare())
     _scene.add_actor(ColoredSquare())
     _scene.add_actor(ColoredAndOutlinedSquare())
     _scene.add_actor(EmitterActor())
     _scene.add_actor(VeryCompoundActor())
+
+
+class APlayerActor(PlayerActor):
+    def __init__(self):
+        super().__init__()
+        self.rgb = RGB(1, 1, 1)
+        polygon = Polygon([Point3D(0, 0, 0), Point3D(0, 1, 0), Point3D(1, 0.5, 0)])
+        self.add_component(PolygonComponent(polygon))
+        self.add_component(HitboxComponent(polygon, is_collision_source=True))
+        self.add_component(ColorComponent(self.rgb))
+        self.subscribe_to_event(collision_event.CollisionEvent, self.__on_collision_event)
+        self.collision_sound = Audio.new_sound('../sound_samples/rubber_ducky.wav')
+        self.__collision_timeout = 0
+
+    def __on_collision_event(self, event):
+        self.rgb.blue = 0
+        self.rgb.green = 0
+        if self.__collision_timeout <= 0:
+            Audio.play_sound(self.collision_sound)
+        self.__collision_timeout = 0.1
+
+    def end_tick(self):
+        super().end_tick()
+        if self.__collision_timeout > 0:
+            self.__decrease_collision_timeout()
+
+    def __decrease_collision_timeout(self):
+        self.__collision_timeout -= (1/Game.display_configuration().fps)
+        if self.__collision_timeout <= 0:
+            self.rgb.blue = 1
+            self.rgb.green = 1
 
 
 class RotatingTriangle(Actor):

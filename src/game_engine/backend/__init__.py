@@ -1,6 +1,7 @@
 from src.game_engine.backend.pygameOpenGL import engine_delegate
 from src.game_engine.backend.pygameOpenGL import polygon_component_draw_delegate
+from src.game_engine.backend import pygame_audio_delegate
 
 engine_delegate = engine_delegate.PygameEngineDelegate
-
 polygon_component_draw_delegate = polygon_component_draw_delegate.PolygonComponentDrawDelegate
+audio_delegate = pygame_audio_delegate.PygameAudioDelegate

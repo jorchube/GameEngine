@@ -1,6 +1,7 @@
 from src.game_engine import backend
 from src.game_engine import scene
 from src.game_engine.actor.actor import Actor
+from src.game_engine.audio.audio import Audio
 from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
 from src.game_engine.component.outline_component import OutlineComponent
@@ -8,6 +9,7 @@ from src.game_engine.component.polygon_component import PolygonComponent
 from src.game_engine.engine.engine import Engine
 from src.game_engine.actor.actor_factory import ActorFactory
 from src.game_engine.display_configuration import DisplayConfiguration
+from src.game_engine.event.event_type import collision_event
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.vector import Vector3D
@@ -17,8 +19,10 @@ from src.game_engine.visual.rgb import RGB
 def start_engine_poc():
     display_config = DisplayConfiguration(width_px=800, height_px=600, fps=60)
     initial_scene = scene.Scene()
-    __add_some_actors(initial_scene)
+    Audio.initialize(backend.audio_delegate())
     engine = Engine(display_config, initial_scene, backend.engine_delegate())
+
+    __add_some_actors(initial_scene)
     engine.run_loop()
 
 
@@ -108,10 +112,13 @@ class VeryCompoundActor(Actor):
         self.add_component(HitboxComponent(body2))
         self.add_component(polygon2)
         self.position = Point3D(5, -15, 0)
+        self.collision_sound = Audio.new_sound('../sound_samples/metal_crunch.wav')
 
     def end_tick(self):
         self.rotation.z_axis -= 1
         super().end_tick()
+    def __on_collision_event(self, event):
+        Audio.play_sound(self.collision_sound)
 
 
 def main():

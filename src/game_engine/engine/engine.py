@@ -34,8 +34,8 @@ class Engine(object):
             self.__print_timing_information()
 
     def _run_loop(self):
-        actors = self._scene.actors()
-        self._collision_engine.calculate_collisions(actors)
+        #actors = self._scene.actors()
+        self._collision_engine.calculate_collisions(self._scene.colliding_actors())
         self.engine_delegate.digest_events()
         self._process_events()
         self.engine_delegate.clear_display()

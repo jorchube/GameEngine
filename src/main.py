@@ -1,7 +1,9 @@
+import random
+
 from src.game_engine import backend
 from src.game_engine import scene
 from src.game_engine.actor.actor import Actor
-from src.game_engine.actor.particle import ParticleConstructor, ParticleDescriptor
+from src.game_engine.actor.particle import Particle
 from src.game_engine.audio.audio import Audio
 from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
@@ -94,14 +96,21 @@ class EmitterActor(Actor):
         self.add_component(PolygonComponent(body))
         self.position = Point3D(-10, 15, 0)
         particle_emitter = ParticleEmitterComponent(
-            ParticleConstructor,
-            [ParticleDescriptor(0.5, 2, Polygon([Point3D(-0.05, 0, 0), Point3D(0.05, 0.1, 0), Point3D(0.05, -0.1, 0)]), RGB(0.3, 0.7, 0.3))],
+            TriangleParticle,
             50,
             Vector3D(6, 0, 0),
             speed_variability=0.5,
             direction_variability=60
         )
         self.add_component(particle_emitter)
+
+
+class TriangleParticle(Particle):
+    def __init__(self):
+        lifespan = random.uniform(0.5, 2)
+        super().__init__(lifespan)
+        self.add_component(PolygonComponent(Polygon([Point3D(-0.05, 0, 0), Point3D(0.05, 0.1, 0), Point3D(0.05, -0.1, 0)])))
+        self.add_component(ColorComponent(RGB(0.3, 0.7, 0.3)))
 
 
 class VeryCompoundActor(Actor):
@@ -124,8 +133,7 @@ class VeryCompoundActor(Actor):
         self.subscribe_to_event(collision_event.CollisionEvent, self.__on_collision_event)
         self.collision_sound = Audio.new_sound('../sound_samples/metal_crunch.wav')
         particle_emitter = ParticleEmitterComponent(
-            ParticleConstructor,
-            [ParticleDescriptor(2, 4, Polygon([Point3D(-0.1, 0, 0), Point3D(0.1, 0.2, 0), Point3D(0.1, -0.2, 0)]), RGB(0.3, 0.7, 0.3), spinning_speed=30)],
+            RotatingParticle,
             10,
             Vector3D(9, 0, 0),
             speed_variability=0.1,
@@ -136,6 +144,17 @@ class VeryCompoundActor(Actor):
 
     def __on_collision_event(self, event):
         Audio.play_sound(self.collision_sound)
+
+
+class RotatingParticle(Particle):
+    def __init__(self):
+        lifespan = random.uniform(2, 4)
+        super().__init__(lifespan)
+        body = Polygon([Point3D(-0.1, 0, 0), Point3D(0.1, 0.2, 0), Point3D(0.1, -0.2, 0)])
+        self.add_component(PolygonComponent(body))
+        self.add_component(HitboxComponent(body))
+        self.add_component(ColorComponent(RGB(0.3, 0.7, 0.3)))
+        self.spinning_speed = 30
 
 
 def main():

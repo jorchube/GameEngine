@@ -15,8 +15,5 @@ class OutlineComponent(Component):
     def thickness(self):
         return self.__thickness
 
-    def update_rotation(self):
-        pass
-
     def end_tick(self):
         pass

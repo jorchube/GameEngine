@@ -2,6 +2,7 @@ from src.game_engine.event.event_type.collision_event import CollisionEvent
 from src.game_engine.geometry.operations import GeometryOperations
 from src.game_engine.component.hitbox_component import HitboxComponent
 
+
 class CollisionEngine(object):
     def calculate_collisions(self, actors):
         hitbox_components = self.__get_all_hitbox_components(actors)

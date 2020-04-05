@@ -10,8 +10,5 @@ class ColorComponent(Component):
     def rgb(self):
         return self.__rgb
 
-    def update_rotation(self):
-        pass
-
     def end_tick(self):
         pass

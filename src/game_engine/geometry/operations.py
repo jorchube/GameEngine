@@ -1,8 +1,10 @@
+import math
 from shapely.geometry import Polygon as sPol
 from shapely import affinity
 from shapely import geometry
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.point import Point3D
+from src.game_engine.geometry.vector import Vector3D
 
 
 class GeometryOperations(object):
@@ -10,6 +12,13 @@ class GeometryOperations(object):
     def rotate_polygon(cls, polygon, position, z_axis):
         _geometry = cls.__geometry_from_polygon_and_position(polygon, position)
         return cls.__to_polygon(affinity.rotate(_geometry, z_axis, origin=(position.x, position.y)), position)
+
+    @classmethod
+    def rotate_vector(cls, vector, z_axis):
+        geo = geometry.LineString([[0, 0, 0], [vector.x, vector.y, vector.z]])
+        rotated = affinity.rotate(geo, z_axis)
+        new_coords = rotated.coords
+        return Vector3D(new_coords[1][0]-new_coords[0][0], new_coords[1][1]-new_coords[0][1], 0)
 
     @classmethod
     def polygon_center(cls, polygon):

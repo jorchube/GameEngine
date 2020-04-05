@@ -41,3 +41,8 @@ class TestVector3D(unittest.TestCase):
         p1 = Vector3D(1, 2, 3)
 
         assert Vector3D(0.5, 1, 1.5) == Vector3D.divide_vector_by_number(p1, 2)
+
+    def test_multiplying_by_number(self):
+        p1 = Vector3D(1, 2, 3)
+
+        assert Vector3D(2, 4, 6) == Vector3D.multiply_vector_by_number(p1, 2)

@@ -21,6 +21,7 @@ class PolygonComponent(Component):
                                   )
 
     def update_rotation(self):
+        super().update_rotation()
         self.__polygon = GeometryOperations.rotate_polygon(self.__original_polygon, self.actor.position, self.actor.rotation.z_axis)
 
     def __get_rgb_fill_color(self):

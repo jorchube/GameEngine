@@ -1,10 +1,12 @@
 from src.game_engine import backend
 from src.game_engine import scene
 from src.game_engine.actor.actor import Actor
+from src.game_engine.actor.particle import ParticleConstructor, ParticleDescriptor
 from src.game_engine.audio.audio import Audio
 from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
 from src.game_engine.component.outline_component import OutlineComponent
+from src.game_engine.component.particle_emitter_component import ParticleEmitterComponent
 from src.game_engine.component.polygon_component import PolygonComponent
 from src.game_engine.engine.engine import Engine
 from src.game_engine.actor.actor_factory import ActorFactory
@@ -32,17 +34,11 @@ def __add_some_actors(_scene):
 
     another_actor = ActorFactory.new_polygon_actor(Polygon([Point3D(5, 0, 0), Point3D(0, 5, 0), Point3D(5, 5, 0)]))
     _scene.add_actor(another_actor)
-
-    for i in range(-30, 30):
-        actor = ActorFactory.new_polygon_actor(Polygon([Point3D(1, -0.1, 0), Point3D(1, 0.1, 0), Point3D(-1, 0.1, 0), Point3D(-1, -0.1, 0)]))
-        actor.rotation.z_axis += i*12
-        actor.position = Point3D(i, i, 0)
-        _scene.add_actor(actor)
-
     _scene.add_actor(RotatingTriangle())
     _scene.add_actor(RotatingSquare())
     _scene.add_actor(ColoredSquare())
     _scene.add_actor(ColoredAndOutlinedSquare())
+    _scene.add_actor(EmitterActor())
     _scene.add_actor(VeryCompoundActor())
 
 
@@ -56,10 +52,7 @@ class RotatingTriangle(Actor):
         self.add_component(HitboxComponent(body))
         self.add_component(PolygonComponent(body))
         self.position = Point3D(-15, 5, 0)
-
-    def end_tick(self):
-        self.rotation.z_axis += 1
-        super().end_tick()
+        self.spinning_speed = 3
 
 
 class RotatingSquare(Actor):
@@ -69,10 +62,7 @@ class RotatingSquare(Actor):
         self.add_component(HitboxComponent(body))
         self.add_component(PolygonComponent(body))
         self.position = Point3D(15, -10, 0)
-
-    def end_tick(self):
-        self.rotation.z_axis -= 5
-        super().end_tick()
+        self.spinning_speed = -5
 
 
 class ColoredSquare(Actor):
@@ -96,6 +86,24 @@ class ColoredAndOutlinedSquare(Actor):
         self.position = Point3D(-3, 8, 0)
 
 
+class EmitterActor(Actor):
+    def __init__(self):
+        super().__init__()
+        body = Polygon([Point3D(0, 0, 0), Point3D(-3, -1, 0), Point3D(-3, 1, 0)])
+        self.add_component(HitboxComponent(body))
+        self.add_component(PolygonComponent(body))
+        self.position = Point3D(-10, 15, 0)
+        particle_emitter = ParticleEmitterComponent(
+            ParticleConstructor,
+            [ParticleDescriptor(0.5, 2, Polygon([Point3D(-0.05, 0, 0), Point3D(0.05, 0.1, 0), Point3D(0.05, -0.1, 0)]), RGB(0.3, 0.7, 0.3))],
+            50,
+            Vector3D(6, 0, 0),
+            speed_variability=0.5,
+            direction_variability=60
+        )
+        self.add_component(particle_emitter)
+
+
 class VeryCompoundActor(Actor):
     def __init__(self):
         super().__init__()
@@ -112,11 +120,20 @@ class VeryCompoundActor(Actor):
         self.add_component(HitboxComponent(body2))
         self.add_component(polygon2)
         self.position = Point3D(5, -15, 0)
+        self.spinning_speed = 0.3
+        self.subscribe_to_event(collision_event.CollisionEvent, self.__on_collision_event)
         self.collision_sound = Audio.new_sound('../sound_samples/metal_crunch.wav')
+        particle_emitter = ParticleEmitterComponent(
+            ParticleConstructor,
+            [ParticleDescriptor(2, 4, Polygon([Point3D(-0.1, 0, 0), Point3D(0.1, 0.2, 0), Point3D(0.1, -0.2, 0)]), RGB(0.3, 0.7, 0.3), spinning_speed=30)],
+            10,
+            Vector3D(9, 0, 0),
+            speed_variability=0.1,
+            direction_variability=0.1
+        )
+        particle_emitter.position_offset_relative_to_actor = Vector3D(5, 0, 0)
+        self.add_component(particle_emitter)
 
-    def end_tick(self):
-        self.rotation.z_axis -= 1
-        super().end_tick()
     def __on_collision_event(self, event):
         Audio.play_sound(self.collision_sound)
 

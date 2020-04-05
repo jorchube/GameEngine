@@ -10,6 +10,7 @@ class Actor(object):
         self.__position = Point3D(0, 0, 0)
         self.__move_vector = Vector3D(0, 0, 0)
         self.__rotation = Rotation(self.__rotation_callback)
+        self.__spinning_speed = 0
         self.__event_handler = event_handler.EventHandler()
         self.__components = []
 
@@ -57,8 +58,18 @@ class Actor(object):
     def rotation(self):
         return self.__rotation
 
+    @property
+    def spinning_speed(self):
+        return self.__spinning_speed
+
+    @spinning_speed.setter
+    def spinning_speed(self, z_axis):
+        self.__spinning_speed += z_axis
+
     def end_tick(self):
         self.__update_position()
+        if self.__spinning_speed != 0:
+            self.rotation.z_axis += self.__spinning_speed
         for component in self.__components:
             component.end_tick()
 

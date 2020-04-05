@@ -1,8 +1,14 @@
+from src.game_engine.geometry.operations import GeometryOperations
+from src.game_engine.geometry.vector import Vector3D
+
+
 class Component(object):
     def __init__(self):
         self.__actor = None
         self.__tag = None
         self.__components = []
+        self.__offset_relative_to_actor = Vector3D(0, 0, 0)
+        self.__original_offset_relative_to_actor = Vector3D(0, 0, 0)
 
     @property
     def actor(self):
@@ -36,8 +42,16 @@ class Component(object):
     def position(self):
         return self.actor.position
 
+    @property
+    def position_offset_relative_to_actor(self):
+        return self.__offset_relative_to_actor
+
+    @position_offset_relative_to_actor.setter
+    def position_offset_relative_to_actor(self, vector):
+        self.__original_offset_relative_to_actor = vector
+
     def update_rotation(self):
-        raise NotImplementedError
+        self.__offset_relative_to_actor = GeometryOperations.rotate_vector(self.__original_offset_relative_to_actor, self.actor.rotation.z_axis)
 
     def end_tick(self):
         raise NotImplementedError

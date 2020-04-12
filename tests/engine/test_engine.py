@@ -73,7 +73,7 @@ def given_test_scene():
     scene = mock.MagicMock()
     actor = mock.MagicMock()
     actor_list = [actor]
-    scene.actors.return_value = actor_list
+    scene.colliding_actors.return_value = actor_list
     return scene, actor_list
 
 

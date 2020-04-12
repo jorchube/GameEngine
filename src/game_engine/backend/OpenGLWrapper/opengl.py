@@ -50,6 +50,14 @@ def draw_polygon(polygon, rgb_fill=None, rgb_outline=None, outline_thickness=Non
         __draw_outline(polygon, rgb_outline, outline_thickness)
 
 
+def gl_raster_position(x, y, z):
+    glRasterPos3d(x, y, z)
+
+
+def gl_draw_pixels(data, width, height):
+    glDrawPixels(width, height, GL_RGBA, GL_UNSIGNED_BYTE, data)
+
+
 def __draw_fill(polygon, rgb):
     __set_fill_color(rgb)
     begin_polygon()

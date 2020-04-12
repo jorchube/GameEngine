@@ -1,7 +1,13 @@
 class Audio(object):
-    class __SoundEffect(object):
-        def __init__(self, backend_data):
-            self.backend_data = backend_data
+    class ASound(object):
+        __backend_data = None
+
+        def __init__(self, file_path, delegate):
+            self.__audio_delegate = delegate
+            self.__backend_data = self.__audio_delegate.new_sound(file_path)
+
+        def play(self):
+            self.__audio_delegate.play_sound(self.__backend_data)
 
     __audio_delegate = None
 
@@ -11,9 +17,4 @@ class Audio(object):
 
     @classmethod
     def new_sound(cls, file_path):
-        backend_data = cls.__audio_delegate.new_sound(file_path)
-        return cls.__SoundEffect(backend_data)
-
-    @classmethod
-    def play_sound(cls, sound):
-        cls.__audio_delegate.play_sound(sound.backend_data)
+        return cls.ASound(file_path, cls.__audio_delegate)

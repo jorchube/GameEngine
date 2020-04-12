@@ -1,5 +1,5 @@
-from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.component import Component
+from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.outline_component import OutlineComponent
 from src.game_engine.geometry.operations import GeometryOperations
 from src.game_engine import backend

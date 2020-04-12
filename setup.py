@@ -10,7 +10,7 @@ setup(
     author_email='jorchube.dev@gmail.com',
     packages=find_packages(),
     install_requires=[
-        'pygame',
+        'pygame>=2.0.0.dev6',
         'pyopengl',
         'pyopengl_accelerate',
         'shapely'

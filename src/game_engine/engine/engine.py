@@ -6,15 +6,14 @@ from src.game_engine.game import Game
 
 class Engine(object):
     def __init__(self, display_configuration, initial_scene, engine_delegate):
+        self._display_configuration = display_configuration
+        Game.set_display_configuration(display_configuration)
         self.running = False
         self._scene = initial_scene
-        self._display_configuration = display_configuration
         self._collision_engine = collision_engine.CollisionEngine()
         self.engine_delegate = engine_delegate
         self.engine_delegate.initialize(self)
         self._digested_events = []
-        Game.set_display_configuration(display_configuration)
-        self.elapsed_ticks = 0
 
     @property
     def display_configuration(self):
@@ -30,11 +29,8 @@ class Engine(object):
         self.running = True
         while self.running:
             self._run_loop()
-            self.elapsed_ticks += 1
-            self.__print_timing_information()
 
     def _run_loop(self):
-        #actors = self._scene.actors()
         self._collision_engine.calculate_collisions(self._scene.colliding_actors())
         self.engine_delegate.digest_events()
         self._process_events()
@@ -53,14 +49,6 @@ class Engine(object):
     def _forward_event_to_actors(self, event):
         for actor in self._scene.actors():
             actor.receive_event(event)
-
-    def __print_timing_information(self):
-        if '_print_fps_start_ns' not in self.__dict__:
-            setattr(self, '_print_fps_start_ns', 0)
-        if self.elapsed_ticks % self.display_configuration.fps == 0:
-            print(f'>> {self.display_configuration.fps/((time.perf_counter_ns() - self._print_fps_start_ns)/1000000000.0)} FPS')
-            print(f'>> tick time: {(1000.0 / self.display_configuration.fps)} ms')
-            self._print_fps_start_ns = time.perf_counter_ns()
 
     def _run_loop_measured(self):
         actors = measure_ns(self._scene.actors)

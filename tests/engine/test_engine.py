@@ -10,10 +10,11 @@ from src.game_engine import display_configuration
 class TestEngine(unittest.TestCase):
     def setUp(self):
         patcher.start_patch(self, 'src.game_engine.collision_engine.CollisionEngine')
+        self.camera = mock.MagicMock()
         self.collision_engine = mock.MagicMock()
         self.CollisionEngine.return_value = self.collision_engine
         self.engine_delegate = mock.MagicMock()
-        self.test_engine = DummyEngine(display_configuration.DisplayConfiguration(800, 600, 60), mock.MagicMock(), self.engine_delegate)
+        self.test_engine = DummyEngine(self.camera, display_configuration.DisplayConfiguration(800, 600, 60), mock.MagicMock(), self.engine_delegate)
 
     def tearDown(self):
         patcher.stop_patches()
@@ -78,8 +79,8 @@ def given_test_scene():
 
 
 class DummyEngine(engine.Engine):
-    def __init__(self, _display_configuration, scene, engine_delegate):
-        super().__init__(_display_configuration, scene, engine_delegate)
+    def __init__(self, camera, _display_configuration, scene, engine_delegate):
+        super().__init__(camera, _display_configuration, scene, engine_delegate)
         self.ticks = 0
         self.process_events_called = False
 

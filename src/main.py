@@ -6,6 +6,7 @@ from src.game_engine.actor.actor import Actor
 from src.game_engine.actor.particle import Particle
 from src.game_engine.actor.player_actor import PlayerActor
 from src.game_engine.audio.audio import Audio
+from src.game_engine.geometry import Rotation
 from src.game_engine.text.text import Text
 from src.game_engine.component.color_component import ColorComponent
 from src.game_engine.component.hitbox_component import HitboxComponent
@@ -20,15 +21,17 @@ from src.game_engine.game import Game
 from src.game_engine.geometry.point import Point3D
 from src.game_engine.geometry.polygon import Polygon
 from src.game_engine.geometry.vector import Vector3D
+from src.game_engine.visual.camera import Camera
 from src.game_engine.visual.rgb import RGB
 
 
 def start_engine_poc():
     display_config = DisplayConfiguration(width_px=800, height_px=600, fps=60, scaled=True)
+    camera = Camera(Point3D(0, 0, -50), Rotation(0, 15, 0), 45, 0.1, 100.0)
     initial_scene = scene.Scene()
     Audio.initialize(backend.audio_delegate())
     Text.initialize(backend.text_delegate())
-    engine = Engine(display_config, initial_scene, backend.engine_delegate())
+    engine = Engine(camera, display_config, initial_scene, backend.engine_delegate())
 
     __add_some_actors(initial_scene)
     engine.run_loop()

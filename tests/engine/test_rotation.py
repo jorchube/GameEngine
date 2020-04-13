@@ -8,7 +8,7 @@ class TestRotation(unittest.TestCase):
     def test_setting_and_getting_a_rotation_object_components(self):
         callback = mock.MagicMock()
 
-        rotation = Rotation(callback)
+        rotation = Rotation(rotation_callback=callback)
 
         rotation.x_axis = 30
         rotation.y_axis = 60

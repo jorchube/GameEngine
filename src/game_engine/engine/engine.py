@@ -5,14 +5,14 @@ from src.game_engine.game import Game
 
 
 class Engine(object):
-    def __init__(self, display_configuration, initial_scene, engine_delegate):
+    def __init__(self, camera, display_configuration, initial_scene, engine_delegate):
         self._display_configuration = display_configuration
         Game.set_display_configuration(display_configuration)
         self.running = False
         self._scene = initial_scene
         self._collision_engine = collision_engine.CollisionEngine()
         self.engine_delegate = engine_delegate
-        self.engine_delegate.initialize(self)
+        self.engine_delegate.initialize(self, camera)
         self._digested_events = []
 
     @property

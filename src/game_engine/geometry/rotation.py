@@ -1,9 +1,13 @@
 class Rotation(object):
-    def __init__(self, rotation_callback):
-        self.__x = 0
-        self.__y = 0
-        self.__z = 0
-        self.__callback = rotation_callback
+    def __init__(self, x=0, y=0, z=0, rotation_callback=None):
+        self.__x = x
+        self.__y = y
+        self.__z = z
+        self.__cb = rotation_callback
+
+    def __callback(self):
+        if self.__cb:
+            self.__cb()
 
     @property
     def x_axis(self):

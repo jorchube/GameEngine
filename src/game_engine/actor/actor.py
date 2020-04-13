@@ -9,7 +9,7 @@ class Actor(object):
     def __init__(self):
         self.__position = Point3D(0, 0, 0)
         self.__move_vector = Vector3D(0, 0, 0)
-        self.__rotation = Rotation(self.__rotation_callback)
+        self.__rotation = Rotation(rotation_callback=self.__rotation_callback)
         self.__spinning_speed = 0
         self.__event_handler = event_handler.EventHandler()
         self.__components = []

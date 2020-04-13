@@ -1,5 +1,4 @@
 from src.game_engine.game import Game
-from src.game_engine.geometry.point import Point3D
 from src.game_engine.backend.OpenGLWrapper import opengl
 from src.game_engine.backend.pygameOpenGL.pygame_to_event_converter import PygameToEventConverter
 
@@ -14,13 +13,14 @@ class PygameEngineDelegate(EngineDelegate):
         self.clock = None
         self.engine = None
 
-    def initialize(self, engine):
+    def initialize(self, engine, camera):
         self.clock = pg.time.Clock()
         self.engine = engine
         pg.init()
         pg.display.set_mode((engine.display_configuration.width, engine.display_configuration.height), self.__get_display_flags())
-        opengl.glu_perspective(45, (engine.display_configuration.width / engine.display_configuration.height), 0.1, 100.0)  # FIXME: This belongs to a scene/camera module
-        opengl.gl_translate_f(Point3D(0, 0, -50))  # FIXME: This belongs to a scene/camera module
+        opengl.glu_perspective(camera.fov, (engine.display_configuration.width / engine.display_configuration.height), camera.near_clipping_distance, camera.far_clipping_distance)
+        opengl.gl_translate_f(camera.position)
+        opengl.gl_rotate_f(camera.rotation.x_axis, camera.rotation.y_axis, camera.rotation.z_axis)
 
     def digest_events(self):
         events = filter(lambda event: PygameToEventConverter.can_convert_event(event.type), pg.event.get())

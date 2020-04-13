@@ -9,10 +9,10 @@ class PygameTextDelegate(TextDelegateInterface):
         if font.get_init() is None:
             font.init()
 
-    def new_text(self, string, font_size):
+    def new_text(self, string, font_size, fg_color, bg_color):
         try:
             f = font.SysFont(None, font_size)
-            text = f.render(string, False, (255, 0, 0, 255), (0, 0, 0, 50))
+            text = f.render(string, False, fg_color, bg_color)
             return text
         except Exception as exc:
             print('Unable to create new text: {msg}'.format(msg=exc))

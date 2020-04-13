@@ -194,10 +194,11 @@ class FPSActor(Actor):
 
     def __init__(self):
         super().__init__()
-        self.__text_component = TextComponent(' ', size=12)
+        self.__text_component = TextComponent(' ', size=12, fg_color=RGB(0, 0.3, 0))
         self.add_component(self.__text_component)
         self.position = Point3D(25, -20, 0)
         self.elapsed_ticks = 0
+        self.fps_on_target = True
 
     def end_tick(self):
         self.elapsed_ticks += 1
@@ -208,8 +209,17 @@ class FPSActor(Actor):
         if '_print_fps_start_ns' not in self.__dict__:
             setattr(self, '_print_fps_start_ns', 0)
         if self.elapsed_ticks % Game.display_configuration().fps == 0:
-            fps_string = f'{int(Game.display_configuration().fps / ((self.time.perf_counter_ns() - self._print_fps_start_ns) / 1000000000))} FPS'
+            fps = int(Game.display_configuration().fps / ((self.time.perf_counter_ns() - self._print_fps_start_ns) / 1000000000))
+            fps_string = f'{fps} FPS'
             self._print_fps_start_ns = self.time.perf_counter_ns()
+            if fps < 58:
+                if self.fps_on_target:
+                    self.fps_on_target = False
+                    self.__text_component.text.set_fg_color(RGB(0.3, 0, 0))
+            if fps >= 58:
+                if not self.fps_on_target:
+                    self.fps_on_target = True
+                    self.__text_component.text.set_fg_color(RGB(0, 0.3, 0))
             self.__text_component.text.set_string(fps_string)
 
 

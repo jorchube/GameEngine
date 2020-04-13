@@ -1,7 +1,6 @@
 import random
 
 from src.game_engine.component.component import Component
-from src.game_engine.game import Game
 from src.game_engine.geometry.operations import GeometryOperations
 from src.game_engine.geometry.vector import Vector3D
 
@@ -60,6 +59,7 @@ class ParticleEmitterComponent(Component):
         self.__particles_alive = list(filter(lambda p: p.remaining_lifespan_seconds > 0, self.__particles_alive))
 
     def __update_particles(self):
+        from src.game_engine.game import Game
         self.__partial_particle_construction += (1 / Game.display_configuration().fps) * self.__emission_rate
         while self.__partial_particle_construction >= 1:
             self.__particles_alive.append(self.__construct_particle())

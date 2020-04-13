@@ -1,13 +1,11 @@
 import time
 
 from src.game_engine import collision_engine
-from src.game_engine.game import Game
 
 
 class Engine(object):
     def __init__(self, camera, display_configuration, initial_scene, engine_delegate):
         self._display_configuration = display_configuration
-        Game.set_display_configuration(display_configuration)
         self.running = False
         self._scene = initial_scene
         self._collision_engine = collision_engine.CollisionEngine()
@@ -24,6 +22,9 @@ class Engine(object):
 
     def set_scene(self, scene):
         self._scene = scene
+
+    def get_scene(self):
+        return self.__scene
 
     def run_loop(self):
         self.running = True
@@ -60,6 +61,7 @@ class Engine(object):
         measure_ns(self._notify_end_tick_to_actors)
         measure_ns(self.engine_delegate.end_tick)
         print('######################################################')
+
 
 def measure_ns(method, *args, **kwargs):
     def wrapped_func():

@@ -27,14 +27,11 @@ from src.game_engine.visual.rgb import RGB
 
 def start_engine_poc():
     display_config = DisplayConfiguration(width_px=800, height_px=600, fps=60, scaled=True)
-    camera = Camera(Point3D(0, 0, -50), Rotation(0, 15, 0), 45, 0.1, 100.0)
+    camera = Camera(Point3D(0, 0, -50), Rotation(0, 0, 0), 45, 0.1, 100.0)
     initial_scene = scene.Scene()
-    Audio.initialize(backend.audio_delegate())
-    Text.initialize(backend.text_delegate())
-    engine = Engine(camera, display_config, initial_scene, backend.engine_delegate())
-
+    Game.initialize(display_config, camera, initial_scene)
     __add_some_actors(initial_scene)
-    engine.run_loop()
+    Game.run()
 
 
 def __add_some_actors(_scene):

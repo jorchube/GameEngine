@@ -1,4 +1,3 @@
-from src.game_engine.game import Game
 from src.game_engine.backend.OpenGLWrapper import opengl
 from src.game_engine.backend.pygameOpenGL.pygame_to_event_converter import PygameToEventConverter
 
@@ -34,7 +33,7 @@ class PygameEngineDelegate(EngineDelegate):
         self.clock.tick(self.engine.display_configuration.fps)
 
     def __get_display_flags(self):
-        if Game.display_configuration().scaled:
+        if self.engine.display_configuration.scaled:
             return DOUBLEBUF | OPENGL | SCALED
         return DOUBLEBUF | OPENGL
 

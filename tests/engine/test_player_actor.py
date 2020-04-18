@@ -11,5 +11,6 @@ class TestPlayerActor(unittest.TestCase):
         actor = PlayerActor()
 
         actor.receive_event(event)
+        actor.end_tick()
 
         assert Point3D(15, 0, 0) == actor.move_vector

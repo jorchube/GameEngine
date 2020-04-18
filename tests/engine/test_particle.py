@@ -1,7 +1,7 @@
 import unittest
 
 from game_engine.actor.particle import Particle
-from game_engine.display_configuration import DisplayConfiguration
+from game_engine.display.display_configuration import DisplayConfiguration
 from game_engine.game import Game
 
 

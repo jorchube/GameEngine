@@ -2,7 +2,7 @@ import unittest
 
 from game_engine.actor.actor import Actor
 from game_engine.actor.particle import Particle
-from game_engine.display_configuration import DisplayConfiguration
+from game_engine.display.display_configuration import DisplayConfiguration
 from game_engine.game import Game
 from game_engine.component.particle_emitter_component import ParticleEmitterComponent
 from game_engine.geometry.vector import Vector3D

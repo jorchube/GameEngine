@@ -18,7 +18,7 @@ class KeyPressEventConverter(EventConverter):
     @classmethod
     def convert(cls, event):
         if event.key not in _pygame_key_event_data_table:
-            print('Unable to convert pygame backend key press event for key {k}'.format(k=event.key))
+            print('Unable to convert pygame backend key press event for key: {k}'.format(k=event.key))
             return None
         data = _pygame_key_event_data_table[event.key]
         return key_event.KeyEventPress(data)

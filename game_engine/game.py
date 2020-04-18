@@ -39,7 +39,7 @@ class Game(object):
 
     @classmethod
     def set_display_configuration(cls, display_configuration):
-        cls.__display_configuration = display_configuration
+        Display.set_configuration(display_configuration)
 
     @classmethod
     def __subscribe_to_event(cls, event_type, callback):

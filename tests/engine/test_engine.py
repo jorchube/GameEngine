@@ -1,10 +1,9 @@
 import unittest
 from unittest import mock
 
-from game_engine.game import Game
 from tests.helper import patcher
 from game_engine.engine import engine
-from game_engine import display_configuration
+from game_engine.display import display_configuration
 
 
 class TestEngine(unittest.TestCase):

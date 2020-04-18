@@ -5,7 +5,7 @@ from game_engine.component.component import Component
 from tests.helper import patcher
 
 from game_engine.actor.actor import Actor
-from game_engine.display_configuration import DisplayConfiguration
+from game_engine.display.display_configuration import DisplayConfiguration
 from game_engine.event.event import Event
 from game_engine.game import Game
 from game_engine.geometry.point import Point3D

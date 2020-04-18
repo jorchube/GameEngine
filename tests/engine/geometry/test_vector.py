@@ -1,7 +1,7 @@
 import unittest
 
-from src.game_engine.geometry.vector import Vector3D
-from src.game_engine.geometry.point import Point3D
+from game_engine.geometry.vector import Vector3D
+from game_engine.geometry.point import Point3D
 
 
 class TestVector3D(unittest.TestCase):

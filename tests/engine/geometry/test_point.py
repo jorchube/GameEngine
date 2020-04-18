@@ -1,6 +1,6 @@
 import unittest
 
-from src.game_engine.geometry.point import Point3D
+from game_engine.geometry.point import Point3D
 
 
 class TestPoint3D(unittest.TestCase):

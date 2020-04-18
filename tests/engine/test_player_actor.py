@@ -1,8 +1,8 @@
 import unittest
 
-from src.game_engine.event.event_type import key_event
-from src.game_engine.actor.player_actor import PlayerActor
-from src.game_engine.geometry.point import Point3D
+from game_engine.event.event_type import key_event
+from game_engine.actor.player_actor import PlayerActor
+from game_engine.geometry.point import Point3D
 
 
 class TestPlayerActor(unittest.TestCase):

@@ -1,11 +1,11 @@
 import unittest
 
-from src.game_engine.actor.actor import Actor
-from src.game_engine.collision_engine import CollisionEngine
-from src.game_engine.event.event_type import collision_event
-from src.game_engine.geometry.point import Point3D
-from src.game_engine.component.hitbox_component import HitboxComponent
-from src.game_engine.geometry.polygon import Polygon
+from game_engine.actor.actor import Actor
+from game_engine.collision_engine import CollisionEngine
+from game_engine.event.event_type import collision_event
+from game_engine.geometry.point import Point3D
+from game_engine.component.hitbox_component import HitboxComponent
+from game_engine.geometry.polygon import Polygon
 
 
 class TestCollisionEngine(unittest.TestCase):

@@ -1,8 +1,8 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.text.text import Text
-from src.game_engine.visual.rgb import RGB
+from game_engine.text.text import Text
+from game_engine.visual.rgb import RGB
 
 
 class TestText(unittest.TestCase):

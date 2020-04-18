@@ -1,15 +1,15 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.game import Game
+from game_engine.game import Game
 from tests.helper import patcher
-from src.game_engine.engine import engine
-from src.game_engine import display_configuration
+from game_engine.engine import engine
+from game_engine import display_configuration
 
 
 class TestEngine(unittest.TestCase):
     def setUp(self):
-        patcher.start_patch(self, 'src.game_engine.collision_engine.CollisionEngine')
+        patcher.start_patch(self, 'game_engine.collision_engine.CollisionEngine')
         self.camera = mock.MagicMock()
         self.collision_engine = mock.MagicMock()
         self.CollisionEngine.return_value = self.collision_engine
@@ -18,9 +18,6 @@ class TestEngine(unittest.TestCase):
 
     def tearDown(self):
         patcher.stop_patches()
-
-    def test_creating_engione_should_update_game_globals(self):
-        assert Game.display_configuration() == self.test_engine.display_configuration
 
     def test_should_create_display_configuration(self):
         display_config = display_configuration.DisplayConfiguration(800, 600, 30)

@@ -1,8 +1,8 @@
 import unittest
 
-from src.game_engine.actor.particle import Particle
-from src.game_engine.display_configuration import DisplayConfiguration
-from src.game_engine.game import Game
+from game_engine.actor.particle import Particle
+from game_engine.display_configuration import DisplayConfiguration
+from game_engine.game import Game
 
 
 class TestParticle(unittest.TestCase):

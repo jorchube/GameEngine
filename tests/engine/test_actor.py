@@ -1,22 +1,22 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.component.component import Component
+from game_engine.component.component import Component
 from tests.helper import patcher
 
-from src.game_engine.actor.actor import Actor
-from src.game_engine.display_configuration import DisplayConfiguration
-from src.game_engine.event.event import Event
-from src.game_engine.game import Game
-from src.game_engine.geometry.point import Point3D
-from src.game_engine.geometry.vector import Vector3D
+from game_engine.actor.actor import Actor
+from game_engine.display_configuration import DisplayConfiguration
+from game_engine.event.event import Event
+from game_engine.game import Game
+from game_engine.geometry.point import Point3D
+from game_engine.geometry.vector import Vector3D
 
 event_handler_mock = mock.MagicMock()
 
 
 class TestActor(unittest.TestCase):
     def setUp(self):
-        patcher.start_patch(self, 'src.game_engine.game.Game')
+        patcher.start_patch(self, 'game_engine.game.Game')
         self.display_configuration = mock.MagicMock()
         self.display_configuration.fps = 30
         self.Game.display_configuration.return_value = self.display_configuration

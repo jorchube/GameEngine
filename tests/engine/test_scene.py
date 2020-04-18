@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from src.game_engine import scene
+from game_engine import scene
 
 
 class TestDisplayConfiguration(unittest.TestCase):

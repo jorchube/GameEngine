@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.audio.audio import Audio
+from game_engine.audio.audio import Audio
 
 
 class TestAudio(unittest.TestCase):

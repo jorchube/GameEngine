@@ -1,7 +1,7 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.geometry.rotation import Rotation
+from game_engine.geometry.rotation import Rotation
 
 
 class TestRotation(unittest.TestCase):

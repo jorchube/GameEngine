@@ -1,11 +1,11 @@
 import unittest
 
-from src.game_engine.actor.actor import Actor
-from src.game_engine.actor.particle import Particle
-from src.game_engine.display_configuration import DisplayConfiguration
-from src.game_engine.game import Game
-from src.game_engine.component.particle_emitter_component import ParticleEmitterComponent
-from src.game_engine.geometry.vector import Vector3D
+from game_engine.actor.actor import Actor
+from game_engine.actor.particle import Particle
+from game_engine.display_configuration import DisplayConfiguration
+from game_engine.game import Game
+from game_engine.component.particle_emitter_component import ParticleEmitterComponent
+from game_engine.geometry.vector import Vector3D
 
 
 class TestParticleEmitter(unittest.TestCase):

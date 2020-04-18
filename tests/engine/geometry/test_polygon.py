@@ -1,8 +1,8 @@
 import unittest
 
-from src.game_engine.geometry.point import Point3D
-from src.game_engine.geometry.polygon import Polygon
-from src.game_engine.geometry.polygon import PolygonConstructionError
+from game_engine.geometry.point import Point3D
+from game_engine.geometry.polygon import Polygon
+from game_engine.geometry.polygon import PolygonConstructionError
 
 
 class TestPolygon(unittest.TestCase):

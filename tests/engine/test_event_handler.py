@@ -1,8 +1,8 @@
 import unittest
 from unittest import mock
 
-from src.game_engine.event import event_handler
-from src.game_engine.event import event
+from game_engine.event import event_handler
+from game_engine.event import event
 
 
 class TestEventHandler(unittest.TestCase):

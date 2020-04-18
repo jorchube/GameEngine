@@ -1,8 +1,8 @@
 import unittest
 
 import pygame as pg
-from src.game_engine.backend.pygameOpenGL.pygame_to_event_converter import PygameToEventConverter
-from src.game_engine.event.event_type import key_event
+from game_engine.backend.pygameOpenGL.pygame_to_event_converter import PygameToEventConverter
+from game_engine.event.event_type import key_event
 
 
 class TestPygameToEventConverter(unittest.TestCase):

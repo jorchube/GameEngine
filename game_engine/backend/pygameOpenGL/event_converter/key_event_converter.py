@@ -11,6 +11,19 @@ _pygame_key_event_data_table = {
     pg.K_a: key_event.Key.A,
     pg.K_s: key_event.Key.S,
     pg.K_d: key_event.Key.D,
+    pg.K_1: key_event.Key.one,
+    pg.K_2: key_event.Key.two,
+    pg.K_3: key_event.Key.three,
+    pg.K_4: key_event.Key.four,
+    pg.K_5: key_event.Key.five,
+    pg.K_6: key_event.Key.six,
+    pg.K_7: key_event.Key.seven,
+    pg.K_8: key_event.Key.eight,
+    pg.K_9: key_event.Key.nine,
+    pg.K_0: key_event.Key.zero,
+    pg.K_SPACE: key_event.Key.space,
+    pg.K_LSHIFT: key_event.Key.shift_left,
+    pg.K_LCTRL: key_event.Key.ctrl_left,
 }
 
 

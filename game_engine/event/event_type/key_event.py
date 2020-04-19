@@ -10,6 +10,21 @@ class Key(object):
     A = 'a'
     S = 's'
     D = 'd'
+    zero = '0'
+    one = '1'
+    two = '2'
+    three = '3'
+    four = '4'
+    five = '5'
+    six = '6'
+    seven = '7'
+    eight = '8'
+    nine = '9'
+    ctrl_left = 'ctrl_left'
+    shift_left = 'shift_left'
+    space = 'space'
+
+
 
 
 class KeyEvent(event.Event):

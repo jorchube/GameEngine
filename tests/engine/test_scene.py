@@ -18,3 +18,12 @@ class TestDisplayConfiguration(unittest.TestCase):
         test_scene.add_actor(test_actor)
 
         assert test_actor in test_scene.actors()
+
+    def test_should_remove_actor_from_scene(self):
+        test_actor = mock.MagicMock()
+        test_scene = scene.Scene()
+        test_scene.add_actor(test_actor)
+
+        test_scene.remove_actor(test_actor)
+
+        assert test_actor not in test_scene.actors()

@@ -9,6 +9,9 @@ class Scene(object):
     def add_actor(self, actor):
         self._actors.append(actor)
 
+    def remove_actor(self, actor):
+        self._actors.remove(actor)
+
     def actors(self):
         return self._actors
 

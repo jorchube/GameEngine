@@ -2,6 +2,7 @@ import random
 
 from game_engine import scene
 from game_engine.actor.actor import Actor
+from game_engine.actor.mouse_actor import MouseActor
 from game_engine.actor.particle import Particle
 from game_engine.actor.player_actor import PlayerActor
 from game_engine.audio.audio import Audio
@@ -40,6 +41,7 @@ def __add_some_actors(_scene):
     _scene.add_actor(EmitterActor())
     _scene.add_actor(VeryCompoundActor())
     _scene.add_actor(FPSActor())
+    _scene.add_actor(AMouseActor())
 
 
 class APlayerActor(PlayerActor):
@@ -71,6 +73,18 @@ class APlayerActor(PlayerActor):
         if self.__collision_timeout <= 0:
             self.rgb.blue = 1
             self.rgb.green = 1
+
+
+class AMouseActor(MouseActor):
+    def __init__(self):
+        super().__init__()
+        self.rgb = RGB(0, 1, 0)
+        polygon = Polygon([Point3D(0, 0, 0), Point3D(0, 1, 0), Point3D(1, 0.5, 0)])
+        self.add_component(PolygonComponent(polygon))
+        self.add_component(HitboxComponent(polygon, is_collision_source=True))
+        self.add_component(ColorComponent(self.rgb))
+        self.position.x = 15
+        self.position.y = 15
 
 
 class RotatingTriangle(Actor):

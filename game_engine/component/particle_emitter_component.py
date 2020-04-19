@@ -50,19 +50,16 @@ class ParticleEmitterComponent(Component):
         self.__emission_vector = GeometryOperations.rotate_vector(self.__original_emission_vector, self.actor.rotation.z_axis)
 
     def end_tick(self):
-        self.__discard_exhausted_particles()
-        self.__update_particles()
-        for particle in self.__particles_alive:
-            particle.end_tick()
+        self.__update_partial_particles()
 
     def __discard_exhausted_particles(self):
         self.__particles_alive = list(filter(lambda p: p.remaining_lifespan_seconds > 0, self.__particles_alive))
 
-    def __update_particles(self):
+    def __update_partial_particles(self):
         from game_engine.game import Game
         self.__partial_particle_construction += (1 / Game.display_configuration().fps) * self.__emission_rate
         while self.__partial_particle_construction >= 1:
-            self.__particles_alive.append(self.__construct_particle())
+            Game.current_scene().add_actor(self.__construct_particle())
             self.__partial_particle_construction -= 1
 
     def __construct_particle(self):
@@ -82,3 +79,4 @@ class ParticleEmitterComponent(Component):
 
     def __calculate_speed_variability(self):
         return 1 - random.uniform(-(self.__speed_variability / 2), (self.__speed_variability / 2))
+

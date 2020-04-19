@@ -1,4 +1,6 @@
 from game_engine.actor.actor import Actor
+from game_engine.event.event_dispatcher import EventDispatcher
+from game_engine.event.event_type.particle_expired_event import ParticleExpiredEvent
 from game_engine.game import Game
 
 
@@ -17,3 +19,6 @@ class Particle(Actor):
 
     def _update_lifespan(self):
         self.__remaining_lifespan -= 1/Game.display_configuration().fps
+        if self.__remaining_lifespan <= 0:
+            EventDispatcher.append_event(ParticleExpiredEvent(self))
+

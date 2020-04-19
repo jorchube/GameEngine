@@ -1,6 +1,7 @@
 import time
 
 from game_engine import collision_engine
+from game_engine.event.event_dispatcher import EventDispatcher
 
 
 class Engine(object):
@@ -44,14 +45,8 @@ class Engine(object):
             actor.end_tick()
 
     def _process_events(self):
-        from game_engine.game import Game
-        for event in self._digested_events:
-            Game.receive_event(event)
-            self._forward_event_to_actors(event)
-
-    def _forward_event_to_actors(self, event):
-        for actor in self._scene.actors():
-            actor.receive_event(event)
+        EventDispatcher.append_event_list(self._digested_events)
+        EventDispatcher.dispatch_events()
 
     def _run_loop_measured(self):
         actors = measure_ns(self._scene.actors)

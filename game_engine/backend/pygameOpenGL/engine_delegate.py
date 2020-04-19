@@ -16,6 +16,7 @@ class PygameEngineDelegate(EngineDelegate):
         self.clock = pg.time.Clock()
         self.engine = engine
         pg.init()
+        # pg.mouse.set_visible(False)
         pg.display.set_mode((engine.display_configuration.width, engine.display_configuration.height), self.__get_display_flags())
         opengl.glu_perspective(camera.fov, (engine.display_configuration.width / engine.display_configuration.height), camera.near_clipping_distance, camera.far_clipping_distance)
         opengl.gl_translate_f(camera.position)

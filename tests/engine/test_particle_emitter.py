@@ -1,4 +1,5 @@
 import unittest
+from unittest import mock
 
 from game_engine.actor.actor import Actor
 from game_engine.actor.particle import Particle
@@ -11,7 +12,10 @@ from game_engine.geometry.vector import Vector3D
 class TestParticleEmitter(unittest.TestCase):
     def setUp(self):
         self.fps = 60
+        self.scene = mock.MagicMock()
         Game.set_display_configuration(DisplayConfiguration(800, 600, fps=self.fps))
+        Game.set_scene(self.scene)
+        self.game = Game
         self.an_actor = Actor()
         self.test_emitter = ParticleEmitterComponent(OneSecondLifespanParticle, emission_rate=1, emission_vector=Vector3D(1, 0, 0))
         self.an_actor.add_component(self.test_emitter)
@@ -22,23 +26,14 @@ class TestParticleEmitter(unittest.TestCase):
     def test_emitting_from_one_particle_descriptor(self):
         self.__elapse_one_second(self.test_emitter)
 
-        assert 1 == self.test_emitter.particles_alive[0].end_tick_calls
-
-    def test_discarding_particle_after_lifespan_is_exhausted(self):
-        self.__elapse_one_second(self.test_emitter)
-        assert 1 == len(self.test_emitter.particles_alive)
-
-        self.test_emitter.emission_rate = 0.1
-        self.__elapse_one_second(self.test_emitter)
-
-        assert 0 == len(self.test_emitter.particles_alive)
+        self.scene.add_actor.assert_called_once()
 
     def test_emitting_particles_with_rate_one_per_second(self):
         self.__elapse_one_second(self.test_emitter)
         self.__elapse_one_second(self.test_emitter)
         self.__elapse_one_second(self.test_emitter)
 
-        assert 1 == len(self.test_emitter.particles_alive)
+        assert 3 == self.scene.add_actor.call_count
 
     def test_emitting_particles_with_rate_two_per_second(self):
         self.test_emitter.emission_rate = 2
@@ -46,7 +41,7 @@ class TestParticleEmitter(unittest.TestCase):
         self.__elapse_one_second(self.test_emitter)
         self.__elapse_ticks(self.test_emitter, 1)
 
-        assert 2 == len(self.test_emitter.particles_alive)
+        assert 2 == self.scene.add_actor.call_count
 
     def test_emitting_particles_with_rate_half_per_second(self):
         self.test_emitter.emission_rate = 0.5
@@ -55,7 +50,7 @@ class TestParticleEmitter(unittest.TestCase):
         self.__elapse_one_second(self.test_emitter)
         self.__elapse_one_second(self.test_emitter)
 
-        assert 1 == len(self.test_emitter.particles_alive)
+        assert 1 == self.scene.add_actor.call_count
 
     def __elapse_one_second(self, emitter):
         self.__elapse_ticks(emitter, self.fps)

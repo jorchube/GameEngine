@@ -13,6 +13,7 @@ class Actor(object):
         self.__spinning_speed = 0
         self.__event_handler = event_handler.EventHandler()
         self.__components = []
+        self.__collision_mask = 0x0
 
     def add_component(self, component):
         component.actor = self
@@ -65,6 +66,14 @@ class Actor(object):
     @spinning_speed.setter
     def spinning_speed(self, z_axis):
         self.__spinning_speed += z_axis
+
+    @property
+    def collision_mask(self):
+        return self.__collision_mask
+
+    @collision_mask.setter
+    def collision_mask(self, mask):
+        self.__collision_mask = mask
 
     def end_tick(self):
         self.__update_position()

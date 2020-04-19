@@ -55,6 +55,7 @@ class APlayerActor(PlayerActor):
         self.subscribe_to_event(collision_event.CollisionEvent, self.__on_collision_event)
         self.collision_sound = Audio.new_sound('sound_samples/rubber_ducky.wav')
         self.__collision_timeout = 0
+        self.collision_mask = 0x01
 
     def __on_collision_event(self, event):
         self.rgb.blue = 0
@@ -184,6 +185,7 @@ class VeryCompoundActor(Actor):
         )
         particle_emitter.position_offset_relative_to_actor = Vector3D(5, 0, 0)
         self.add_component(particle_emitter)
+        self.collision_mask = 0x01
 
     def __on_collision_event(self, event):
         self.collision_sound.play()
@@ -198,6 +200,7 @@ class RotatingParticle(Particle):
         self.add_component(HitboxComponent(body))
         self.add_component(ColorComponent(RGB(0.3, 0.7, 0.3)))
         self.spinning_speed = 30
+        self.collision_mask = 0x01
 
 
 class FPSActor(Actor):

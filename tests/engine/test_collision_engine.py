@@ -17,6 +17,10 @@ class TestCollisionEngine(unittest.TestCase):
         self.actor2.position = Point3D(0.5, 0, 0)
         self.actor3.position = Point3D(3, 3, 0)
 
+        self.actor1.collision_mask = 0x01
+        self.actor2.collision_mask = 0x01
+        self.actor3.collision_mask = 0x01
+
         component1 = HitboxComponent(Polygon([Point3D(0, 0, 0), Point3D(1, 0, 0), Point3D(0, 1, 0)]), is_collision_source=True)
         self.actor1.add_component(component1)
 
@@ -43,6 +47,14 @@ class TestCollisionEngine(unittest.TestCase):
 
         assert not self.actor1.has_collided
         assert not self.actor3.has_collided
+
+    def test_doing_nothing_when_collision_masks_do_not_match(self):
+        self.actor1.collision_mask = 0x02
+
+        self.collision_engine.calculate_collisions([self.actor1, self.actor2])
+
+        assert not self.actor1.has_collided
+        assert not self.actor2.has_collided
 
 
 class DummyActor(Actor):

@@ -5,17 +5,31 @@ from game_engine.component.hitbox_component import HitboxComponent
 
 class CollisionEngine(object):
     def calculate_collisions(self, actors):
+        actors_by_collision_mask = self.__sort_actors_by_collision_mask(actors)
+        for collision_mask in actors_by_collision_mask.keys():
+            self.__calculate_collisions(actors_by_collision_mask[collision_mask])
+
+    def __calculate_collisions(self, actors):
         hitbox_components = self.__get_all_hitbox_components(actors)
         collision_sources = list(filter(lambda hb: hb.is_collision_source, hitbox_components))
 
         while collision_sources:
             collider = collision_sources.pop()
             for hitbox in hitbox_components:
-                if self.__check_collision(collider, hitbox):
-                    self.__notify_colliding_actors(collider.actor, hitbox.actor)
+                if hitbox.actor.collision_mask & collider.actor.collision_mask != 0:
+                    if self.__check_collision(collider, hitbox):
+                        self.__notify_colliding_actors(collider.actor, hitbox.actor)
+
+    def __sort_actors_by_collision_mask(self, actors):
+        actors_by_collision_mask = {}
+        for actor in actors:
+            if actor.collision_mask not in actors_by_collision_mask.keys():
+                actors_by_collision_mask[actor.collision_mask] = []
+            actors_by_collision_mask[actor.collision_mask].append(actor)
+        return actors_by_collision_mask
 
     def __check_collision(self, hb1, hb2):
-        if hb1 is hb2:
+        if hb1.actor is hb2.actor:
             return False
         return self.__hitboxes_collide(hb1, hb2)
 

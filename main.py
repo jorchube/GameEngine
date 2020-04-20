@@ -7,6 +7,7 @@ from game_engine.actor.particle import Particle
 from game_engine.actor.player_actor import PlayerActor
 from game_engine.audio.audio import Audio
 from game_engine.component.move_component import MoveComponentNode, MoveComponent
+from game_engine.component.shoot_pattern_component import ShootPatternComponent, ShootPatternComponentNode
 from game_engine.geometry import Rotation
 from game_engine.component.color_component import ColorComponent
 from game_engine.component.hitbox_component import HitboxComponent
@@ -255,13 +256,14 @@ class MovingActor(Actor):
         self.add_component(MoveComponent(movement_node_list))
         particle_emitter = ParticleEmitterComponent(
             RotatingParticle,
-            5,
-            Vector3D(-9, 0, 0),
-            speed_variability=0.1,
-            direction_variability=0.1
+            10,
+            Vector3D(-6, 0, 0),
+            speed_variability=0,
+            direction_variability=0
         )
-        particle_emitter.position_offset_relative_to_actor = Vector3D(5, 0, 0)
-        self.add_component(particle_emitter)
+        shoot_pattern_node_list = [ShootPatternComponentNode(particle_emitter, 0.3),
+                                   ShootPatternComponentNode(None, 0.3)] * 999
+        self.add_component(ShootPatternComponent(shoot_pattern_node_list))
 
 
 def main():

@@ -6,6 +6,7 @@ from game_engine.actor.mouse_actor import MouseActor
 from game_engine.actor.particle import Particle
 from game_engine.actor.player_actor import PlayerActor
 from game_engine.audio.audio import Audio
+from game_engine.component.move_component import MoveComponentNode, MoveComponent
 from game_engine.geometry import Rotation
 from game_engine.component.color_component import ColorComponent
 from game_engine.component.hitbox_component import HitboxComponent
@@ -41,7 +42,8 @@ def __add_some_actors(_scene):
     _scene.add_actor(EmitterActor())
     _scene.add_actor(VeryCompoundActor())
     _scene.add_actor(FPSActor())
-    _scene.add_actor(AMouseActor())
+    _scene.add_actor(MovingActor())
+    # _scene.add_actor(AMouseActor())  # This one is not nearly finished
 
 
 class APlayerActor(PlayerActor):
@@ -235,6 +237,31 @@ class FPSActor(Actor):
                     self.fps_on_target = True
                     self.__text_component.text.set_fg_color(RGB(0, 0.3, 0))
             self.__text_component.text.set_string(fps_string)
+
+
+class MovingActor(Actor):
+    def __init__(self):
+        super().__init__()
+        body = Polygon([Point3D(0, 0, 0), Point3D(3, 1, 0), Point3D(3, -1, 0)])
+        self.add_component(PolygonComponent(body))
+        self.position = Point3D(10, 10, 0)
+        self.add_component(ColorComponent(RGB(0.2, 0.2, 1)))
+        movement_node_list = [
+            MoveComponentNode(Vector3D(-5, 0, 0), 1),
+            MoveComponentNode(Vector3D(0, -5, 0), 1),
+            MoveComponentNode(Vector3D(5, 0, 0), 1),
+            MoveComponentNode(Vector3D(0, 5, 0), 1),
+        ] * 50
+        self.add_component(MoveComponent(movement_node_list))
+        particle_emitter = ParticleEmitterComponent(
+            RotatingParticle,
+            5,
+            Vector3D(-9, 0, 0),
+            speed_variability=0.1,
+            direction_variability=0.1
+        )
+        particle_emitter.position_offset_relative_to_actor = Vector3D(5, 0, 0)
+        self.add_component(particle_emitter)
 
 
 def main():

@@ -13,10 +13,15 @@ class Engine(object):
         self.engine_delegate = engine_delegate
         self.engine_delegate.initialize(self, camera)
         self._digested_events = []
+        self.__elapsed_ticks = 0
 
     @property
     def display_configuration(self):
         return self._display_configuration
+
+    @property
+    def elapsed_ticks(self):
+        return self.__elapsed_ticks
 
     def set_digested_events(self, events):
         self._digested_events = events
@@ -39,6 +44,7 @@ class Engine(object):
         self.engine_delegate.clear_display()
         self._notify_end_tick_to_actors()
         self.engine_delegate.end_tick()
+        self.__elapsed_ticks += 1
 
     def _notify_end_tick_to_actors(self):
         for actor in self._scene.actors():

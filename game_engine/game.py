@@ -60,6 +60,14 @@ class Game(object):
         return cls.__scene
 
     @classmethod
+    def running_time_seconds(cls):
+        return cls.__engine.elapsed_ticks()/Display.configuration().fps
+
+    @classmethod
+    def elapsed_ticks(cls):
+        return cls.__engine.elapsed_ticks()
+
+    @classmethod
     def __particle_expired_event(cls, event):
         cls.current_scene().remove_actor(event.particle)
 

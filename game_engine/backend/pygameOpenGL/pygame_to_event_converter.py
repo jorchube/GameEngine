@@ -11,7 +11,7 @@ class PygameToEventConverter(object):
     def can_convert_event(cls, pygame_event_type):
         if pygame_event_type in cls.__pygame_event_table.keys():
             return True
-        print('Skipping unsupported pygame backend event type: {t}'.format(t=pygame_event_type))
+        # print('Skipping unsupported pygame backend event type: {t}'.format(t=pygame_event_type))
         return False
 
     @classmethod

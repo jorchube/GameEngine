@@ -95,3 +95,4 @@ class Actor(object):
     def __rotation_callback(self):
         for component in self.__components:
             component.update_rotation()
+

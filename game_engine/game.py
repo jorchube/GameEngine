@@ -68,7 +68,7 @@ class Game(object):
 
     @classmethod
     def running_time_seconds(cls):
-        return cls.__engine.elapsed_ticks()/Display.configuration().fps
+        return cls.__engine.elapsed_ticks/Display.configuration().fps
 
     @classmethod
     def elapsed_ticks(cls):

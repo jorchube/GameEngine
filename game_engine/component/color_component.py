@@ -12,3 +12,6 @@ class ColorComponent(Component):
 
     def end_tick(self):
         pass
+
+    def draw(self):
+        pass

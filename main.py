@@ -1,7 +1,8 @@
 import random
 
-from game_engine import scene
+from game_engine.scene import scene
 from game_engine.actor.actor import Actor
+from game_engine.actor.fps_actor import FPSActor
 from game_engine.actor.mouse_actor import MouseActor
 from game_engine.actor.particle import Particle
 from game_engine.actor.player_actor import PlayerActor
@@ -14,7 +15,6 @@ from game_engine.component.hitbox_component import HitboxComponent
 from game_engine.component.outline_component import OutlineComponent
 from game_engine.component.particle_emitter_component import ParticleEmitterComponent
 from game_engine.component.polygon_component import PolygonComponent
-from game_engine.component.text_component import TextComponent
 from game_engine.display.display_configuration import DisplayConfiguration
 from game_engine.event.event_type import collision_event
 from game_engine.game import Game
@@ -28,9 +28,9 @@ from game_engine.visual.rgb import RGB
 def start_engine_poc():
     display_config = DisplayConfiguration(width_px=800, height_px=600, fps=60, scaled=True)
     camera = Camera(Point3D(0, 0, -50), Rotation(0, 0, 0), 45, 0.1, 100.0)
-    initial_scene = scene.Scene()
+    initial_scene = scene.Scene
     Game.initialize(display_config, camera, initial_scene)
-    __add_some_actors(initial_scene)
+    __add_some_actors(Game.current_scene())
     Game.run()
 
 
@@ -42,8 +42,10 @@ def __add_some_actors(_scene):
     _scene.add_actor(ColoredAndOutlinedSquare())
     _scene.add_actor(EmitterActor())
     _scene.add_actor(VeryCompoundActor())
-    _scene.add_actor(FPSActor())
     _scene.add_actor(MovingActor())
+    fps_actor = FPSActor()
+    fps_actor.position = Point3D(25, -20, 0)
+    _scene.add_actor(fps_actor)
     # _scene.add_actor(AMouseActor())  # This one is not nearly finished
 
 
@@ -202,42 +204,8 @@ class RotatingParticle(Particle):
         self.add_component(PolygonComponent(body))
         self.add_component(HitboxComponent(body))
         self.add_component(ColorComponent(RGB(0.3, 0.7, 0.3)))
-        self.spinning_speed = 30
+        # self.spinning_speed = 30
         self.collision_mask = 0x01
-
-
-class FPSActor(Actor):
-    import time
-
-    def __init__(self):
-        super().__init__()
-        self.__text_component = TextComponent(' ', size=12, fg_color=RGB(0, 0.3, 0))
-        self.add_component(self.__text_component)
-        self.position = Point3D(25, -20, 0)
-        self.elapsed_ticks = 0
-        self.fps_on_target = True
-
-    def end_tick(self):
-        self.elapsed_ticks += 1
-        self.__update_fps_string()
-        super().end_tick()
-
-    def __update_fps_string(self):
-        if '_print_fps_start_ns' not in self.__dict__:
-            setattr(self, '_print_fps_start_ns', 0)
-        if self.elapsed_ticks % Game.display_configuration().fps == 0:
-            fps = int(Game.display_configuration().fps / ((self.time.perf_counter_ns() - self._print_fps_start_ns) / 1000000000))
-            fps_string = f'{fps} FPS'
-            self._print_fps_start_ns = self.time.perf_counter_ns()
-            if fps < 58:
-                if self.fps_on_target:
-                    self.fps_on_target = False
-                    self.__text_component.text.set_fg_color(RGB(0.3, 0, 0))
-            if fps >= 58:
-                if not self.fps_on_target:
-                    self.fps_on_target = True
-                    self.__text_component.text.set_fg_color(RGB(0, 0.3, 0))
-            self.__text_component.text.set_string(fps_string)
 
 
 class MovingActor(Actor):

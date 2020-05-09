@@ -15,11 +15,6 @@ class ParticleEmitterComponent(Component):
         self.__speed_variability = speed_variability
         self.__direction_variability = direction_variability
         self.__partial_particle_construction = 0
-        self.__particles_alive = []
-
-    @property
-    def particles_alive(self):
-        return self.__particles_alive
 
     @property
     def emission_rate(self):
@@ -52,8 +47,8 @@ class ParticleEmitterComponent(Component):
     def end_tick(self):
         self.__update_partial_particles()
 
-    def __discard_exhausted_particles(self):
-        self.__particles_alive = list(filter(lambda p: p.remaining_lifespan_seconds > 0, self.__particles_alive))
+    def draw(self):
+        pass
 
     def __update_partial_particles(self):
         from game_engine.game import Game

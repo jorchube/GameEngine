@@ -14,6 +14,8 @@ class EventHandler(object):
         for subscription in self._subscriptions:
             if subscription.event_type == type(event):
                 self.__execute_event_callbacks(subscription, event)
+                return True
+        return False
 
     def __execute_event_callbacks(self, subscription, event):
         for callback in subscription.callbacks:

@@ -20,6 +20,9 @@ class MoveComponent(Component):
             self.__apply_next_move_node()
         self.__current_tick += 1
 
+    def draw(self):
+        pass
+
     def __apply_next_move_node(self):
         node = self.__move_node_list.pop(0)
         self.actor.move_vector = node.movement_vector

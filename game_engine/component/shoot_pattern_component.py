@@ -23,6 +23,9 @@ class ShootPatternComponent(Component):
             self.__current_shoot_pattern_node.particle_emitter_instance.end_tick()
         self.__current_tick += 1
 
+    def draw(self):
+        pass
+
     def __is_change_node_tick(self):
         return self.__current_tick >= self.__next_node_at_tick
 

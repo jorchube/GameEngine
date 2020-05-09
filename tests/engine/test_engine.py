@@ -28,29 +28,29 @@ class TestEngine(unittest.TestCase):
         self.engine_delegate.initialize.assert_called_once()
 
     def test_calling_engine_delegate_end_tick_when_calling_run_loop(self):
-        self.test_engine._run_loop()
+        self.test_engine._end_tick()
         self.engine_delegate.end_tick.assert_called_once()
 
-    def test_calling_engine_delegate_clear_display_when_calling_run_loop(self):
-        self.test_engine._run_loop()
+    def test_calling_engine_delegate_clear_display_when_calling_clear_display(self):
+        self.test_engine._clear_display()
         self.engine_delegate.clear_display.assert_called_once()
 
     def test_should_calculate_scene_actors_collisions_on_run_loop(self):
         scene, actor_list = given_test_scene()
         self.test_engine.set_scene(scene)
 
-        self.test_engine._run_loop()
+        self.test_engine._update_scene_loop()
 
         self.collision_engine.calculate_collisions.assert_called_once_with(actor_list)
 
-    def test_should_calculate_scene_actors_collisions_of_new_scene_on_run_loop(self):
+    def test_should_calculate_scene_actors_collisions_of_new_scene_on_updatE_scene_loop(self):
         scene, actor_list = given_test_scene()
         another_scene, another_actor_list = given_test_scene()
         self.test_engine.set_scene(scene)
 
-        self.test_engine._run_loop()
+        self.test_engine._update_scene_loop()
         self.test_engine.set_scene(another_scene)
-        self.test_engine._run_loop()
+        self.test_engine._update_scene_loop()
 
         self.collision_engine.calculate_collisions.assert_has_calls([
             mock.call(actor_list),
@@ -58,7 +58,7 @@ class TestEngine(unittest.TestCase):
         ])
 
     def test_should_process_events_on_run_loop(self):
-        self.test_engine._run_loop()
+        self.test_engine._update_scene_loop()
 
         assert self.test_engine.process_events_called
 
@@ -77,12 +77,12 @@ def given_test_scene():
 class DummyEngine(engine.Engine):
     def __init__(self, camera, _display_configuration, scene, engine_delegate):
         super().__init__(camera, _display_configuration, scene, engine_delegate)
-        self.ticks = 0
         self.process_events_called = False
-
-    def _end_tick(self):
-        self.ticks += 1
 
     def _process_events(self):
         self.process_events_called = True
+
+    @property
+    def ticks(self):
+        return self.elapsed_ticks
 

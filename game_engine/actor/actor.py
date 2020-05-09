@@ -82,6 +82,10 @@ class Actor(object):
         for component in self.__components:
             component.end_tick()
 
+    def draw(self):
+        for component in self.__components:
+            component.draw()
+
     def __update_position(self):
         self.position = self.position + self.__move_vector_per_tick()
 

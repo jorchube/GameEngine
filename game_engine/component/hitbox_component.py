@@ -24,6 +24,9 @@ class HitboxComponent(Component):
     def end_tick(self):
         pass
 
+    def draw(self):
+        pass
+
     def update_rotation(self):
         super().update_rotation()
         self.__hitbox = GeometryOperations.rotate_polygon(self.__original_hitbox, self.actor.position, self.actor.rotation.z_axis)

@@ -13,6 +13,9 @@ class PolygonComponent(Component):
         self.__original_polygon = polygon
 
     def end_tick(self):
+        pass
+
+    def draw(self):
         self.__draw_delegate.draw(self.__polygon,
                                   self.actor.position,
                                   rgb_fill=self.__get_rgb_fill_color(),

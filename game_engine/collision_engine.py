@@ -45,9 +45,5 @@ class CollisionEngine(object):
         return hitbox_components
 
     def __notify_colliding_actors(self, actor1, actor2):
-        self.__notify_collision(actor1, actor2)
-        self.__notify_collision(actor2, actor1)
-
-    def __notify_collision(self, actor1, actor2):
         actor1.receive_event(CollisionEvent(actor2))
-
+        actor2.receive_event(CollisionEvent(actor1))

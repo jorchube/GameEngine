@@ -12,4 +12,7 @@ class TextComponent(Component):
         return self.__text
 
     def end_tick(self):
+        pass
+
+    def draw(self):
         self.__text.draw(self.actor.position)

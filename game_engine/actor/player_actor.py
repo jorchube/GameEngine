@@ -62,7 +62,7 @@ class PlayerActor(Actor):
             self.__move_keys['right'] = key_event.Key.RIGHT_ARROW
 
     def __on_collision_event(self, event):
-        print('Collision with {actor}'.format(actor=event.colliding_actor))
+        pass
 
     def __on_key_press_event(self, event):
         if event.key in self.__move_keys.values():

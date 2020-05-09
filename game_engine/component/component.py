@@ -56,6 +56,9 @@ class Component(object):
     def end_tick(self):
         raise NotImplementedError
 
+    def draw(self):
+        raise NotImplementedError
+
     def __eq__(self, other):
         return self == other
 

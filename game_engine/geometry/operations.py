@@ -1,4 +1,3 @@
-import math
 from shapely.geometry import Polygon as sPol
 from shapely import affinity
 from shapely import geometry
@@ -19,6 +18,12 @@ class GeometryOperations(object):
         rotated = affinity.rotate(geo, z_axis)
         new_coords = rotated.coords
         return Vector3D(new_coords[1][0]-new_coords[0][0], new_coords[1][1]-new_coords[0][1], 0)
+
+    @classmethod
+    def is_point_inside_polygon(cls, point, polygon):
+        _point = geometry.Point(point.as_tuple())
+        _geometry = cls.__geometry_from_polygon_and_position(polygon, Point3D(0, 0, 0))
+        return _geometry.contains(_point)
 
     @classmethod
     def polygon_center(cls, polygon):

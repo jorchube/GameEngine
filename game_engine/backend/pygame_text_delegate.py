@@ -6,7 +6,7 @@ from game_engine.backend.OpenGLWrapper import opengl
 
 class PygameTextDelegate(TextDelegateInterface):
     def __init__(self):
-        if font.get_init() is None:
+        if not font.get_init():
             font.init()
 
     def new_text(self, string, font_size, fg_color, bg_color):

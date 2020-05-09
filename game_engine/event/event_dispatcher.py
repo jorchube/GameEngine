@@ -15,11 +15,3 @@ class EventDispatcher(object):
         while cls.__event_list:
             event = cls.__event_list.pop()
             Game.receive_event(event)
-            cls.__forward_event_to_actors(event)
-
-    @classmethod
-    def __forward_event_to_actors(cls, event):
-        from game_engine.game import Game
-        for actor in Game.current_scene().actors():
-            actor.receive_event(event)
-

@@ -27,7 +27,7 @@ class Component(object):
         self.__tag = tag
 
     def add_component(self, component):
-        component.actor = self
+        component.actor = self.__actor
         self.__components.append(component)
 
     def components(self, by_class=None):

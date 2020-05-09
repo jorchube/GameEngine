@@ -1,13 +1,15 @@
 from game_engine.component.hitbox_component import HitboxComponent
 from game_engine.event import event_handler
-from game_engine.event.event_type.particle_expired_event import ParticleExpiredEvent
+from game_engine.event.event_type.add_actor_to_scene_event import AddActorToSceneEvent
+from game_engine.event.event_type.remove_actor_from_scene_event import RemoveActorFromSceneEvent
 
 
 class Scene(object):
     def __init__(self, display):
         self.__event_handler = event_handler.EventHandler()
         self._actors = []
-        self.subscribe_to_event(ParticleExpiredEvent, self.__on_particle_expired_event)
+        self.subscribe_to_event(RemoveActorFromSceneEvent, self.__on_remove_actor_from_scene_event)
+        self.subscribe_to_event(AddActorToSceneEvent, self.__on_add_actor_to_scene_event)
 
     def subscribe_to_event(self, event_type, callback):
         self.__event_handler.subscribe(event_type, callback)
@@ -49,5 +51,8 @@ class Scene(object):
     def __actors_with_hitbox(self, actor_list):
         return list(filter(lambda a: a.components(by_class=HitboxComponent), actor_list))
 
-    def __on_particle_expired_event(self, event):
-        self.remove_actor(event.particle)
+    def __on_remove_actor_from_scene_event(self, event):
+        self.remove_actor(event.actor)
+
+    def __on_add_actor_to_scene_event(self, event):
+        self.add_actor(event.actor)

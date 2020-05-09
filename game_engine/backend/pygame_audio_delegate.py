@@ -6,6 +6,7 @@ class PygameAudioDelegate(AudioDelegateInterface):
     def __init__(self):
         if mixer.get_init() is None:
             mixer.init()
+            mixer.set_num_channels(32)
 
     def new_sound(self, sound_file):
         try:

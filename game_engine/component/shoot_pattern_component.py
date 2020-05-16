@@ -19,7 +19,7 @@ class ShootPatternComponent(Component):
     def end_tick(self):
         if self.__is_change_node_tick():
             self.__apply_next_pattern_node()
-        if self.__current_shoot_pattern_node.particle_emitter_instance:
+        if self.__current_shoot_pattern_node and self.__current_shoot_pattern_node.particle_emitter_instance:
             self.__current_shoot_pattern_node.particle_emitter_instance.end_tick()
         self.__current_tick += 1
 

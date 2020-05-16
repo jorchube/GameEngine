@@ -24,6 +24,9 @@ class Actor(object):
             return self.__components
         return self.__components_by_class(by_class)
 
+    def delete_all_components(self):
+        self.__components = []
+
     def __components_by_class(self, by_class):
         return list(filter(lambda component: component.__class__ == by_class, self.__components))
 
